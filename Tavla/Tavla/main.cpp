@@ -31,6 +31,228 @@ int collectedBlack = 0;
 //-------------------------------------------------------------------------------------------------------------------------------
 //EREN NOKTA - gover: Tahta Tasarimi
 
+
+void solCep(void) {
+	// Sol Cep
+	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
+	glPointSize(5.0f);
+
+	glBegin(GL_QUADS);
+	glVertex2i(15, 15); // sol alt
+	glVertex2i(15, 205); // sol üst
+	glVertex2i(35, 205); // sað üst
+	glVertex2i(35, 15); // sað alt
+	glEnd();
+
+
+	glColor3f(0.7215686274509804f, 0.5411764705882353f, 0.0f);
+	glPointSize(5.0f);
+
+	glBegin(GL_QUADS);
+	glVertex2i(20, 200); // sol alt
+	glVertex2i(20, 125); // sol üst
+	glVertex2i(30, 125); // sað üst
+	glVertex2i(30, 200); // sað alt
+	glEnd();
+
+	glColor3f(0.7215686274509804f, 0.5411764705882353f, 0.0f);
+	glPointSize(5.0f);
+
+	glBegin(GL_QUADS);
+	glVertex2i(20, 20); // sol alt
+	glVertex2i(20, 100); // sol üst
+	glVertex2i(30, 100); // sað üst
+	glVertex2i(30, 20); // sað alt
+	glEnd();
+}
+void sagCep(void) {
+	// Sað 
+	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
+	glPointSize(5.0f);
+
+	glBegin(GL_QUADS);
+	glVertex2i(187, 15); // sol alt
+	glVertex2i(187, 205); // sol üst
+	glVertex2i(205, 205); // sað üst
+	glVertex2i(205, 15); // sað alt
+	glEnd();
+
+
+	glColor3f(0.7215686274509804f, 0.5411764705882353f, 0.0f);
+	glPointSize(5.0f);
+
+	glBegin(GL_QUADS);
+	glVertex2i(190, 200); // sol alt
+	glVertex2i(190, 125); // sol üst
+	glVertex2i(200, 125); // sað üst
+	glVertex2i(200, 200); // sað alt
+	glEnd();
+
+	glColor3f(0.7215686274509804f, 0.5411764705882353f, 0.0f);
+	glPointSize(5.0f);
+
+	glBegin(GL_QUADS);
+	glVertex2i(190, 20); // sol alt
+	glVertex2i(190, 100); // sol üst
+	glVertex2i(200, 100); // sað üst
+	glVertex2i(200, 20); // sað alt
+	glEnd();
+
+}
+void cerceveCiz(void) {
+	//Alt
+	glLineWidth(16.0f); // Kalýnlýk belirttim
+	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
+	glBegin(GL_LINES);
+	glVertex2i(31, 18);
+	glVertex2i(189, 18);
+	glEnd();
+
+	//Sað
+	glLineWidth(14.0f); // Kalýnlýk belirttim
+	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
+	glBegin(GL_LINES);
+	glVertex2i(187, 20);
+	glVertex2i(187, 200);
+	glEnd();
+
+	//Üst
+	glLineWidth(16.0f); // Kalýnlýk belirttim
+	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
+	glBegin(GL_LINES);
+	glVertex2i(189, 202);
+	glVertex2i(31, 202);
+	glEnd();
+
+	//Sol
+	glLineWidth(14.0f); // Kalýnlýk belirttim
+	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
+	glBegin(GL_LINES);
+	glVertex2i(33, 200);
+	glVertex2i(33, 20);
+	glEnd();
+
+	solCep();
+	sagCep();
+
+
+
+
+}
+void tablaCiz(void) {
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.7215686274509804f, 0.5411764705882353f, 0.0f);
+	glPointSize(5.0f);
+
+	glBegin(GL_QUADS);
+	glVertex2i(35, 20); // sol alt
+	glVertex2i(35, 200); // sol üst
+	glVertex2i(200, 200); // sað üst
+	glVertex2i(200, 20); // sað alt
+	glEnd();
+}
+void ortaCubukCiz(float x_center) {
+
+	glLineWidth(32.0f); // Kalýnlýk belirttim
+	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
+	glBegin(GL_LINES);
+	glVertex2i((35.0f + 185.0f) / 2, 200);
+	glVertex2i((35.0f + 185.0f) / 2, 20);
+	glEnd();
+}
+void ucgenCiz(float x_center) {
+	float width = 185.0f - 35.0f;
+	float height = 200.0f - 20.0f;
+	float triangleWidth = width / 12.8f;
+	float triangleHeight = height / 4.0f;
+
+
+
+	for (int i = 0; i < 6; i++) {
+		//Alt tarafa üçgen çizimi
+		if (i % 2 == 0) {
+			glColor3f(1.0f, 0.2784313725490196f, 0.09803921568627451f);
+		}
+		else {
+			glColor3f(0.6745098039215687f, 0.6784313725490196f, 0.5137254901960784f);
+		}
+		glBegin(GL_TRIANGLES);
+		float x_start = 35.0f + (triangleWidth * i);
+		glVertex2i(x_start, 20);
+		glVertex2i(x_start + triangleWidth, 20);
+		glVertex2i(x_start + triangleWidth / 2.0f, 105); // h =85 sanýrým 
+		glEnd();
+
+		// Üst tarafa üçgen çizimi
+		if (i % 2 == 0) {
+			glColor3f(0.6745098039215687f, 0.6784313725490196f, 0.5137254901960784f);
+		}
+		else {
+			glColor3f(1.0f, 0.2784313725490196f, 0.09803921568627451f);
+		}
+		glBegin(GL_TRIANGLES);
+		float x_start_top = 185.0f + (triangleWidth * i);
+		glVertex2i(x_start, 199);
+		glVertex2i(x_start + triangleWidth, 199);
+		glVertex2i(x_start + triangleWidth / 2.0f, 115); // h = 85
+		glEnd();
+
+	}
+
+	for (int i = 0; i < 6; i++) {
+		//Alt tarafa üçgen çizimi
+		if (i % 2 == 0) {
+			glColor3f(1.0f, 0.2784313725490196f, 0.09803921568627451f);
+		}
+		else {
+			glColor3f(0.6745098039215687f, 0.6784313725490196f, 0.5137254901960784f);
+		}
+		glBegin(GL_TRIANGLES);
+		float x_start = (35.0f + 185.0f) / 2 + 5 + (triangleWidth * i);
+		glVertex2i(x_start, 21);
+		glVertex2i(x_start + triangleWidth, 21);
+		glVertex2i(x_start + triangleWidth / 2.0f, 105);
+		glEnd();
+
+		// Üst tarafa üçgen çizimi
+		if (i % 2 == 0) {
+			glColor3f(0.6745098039215687f, 0.6784313725490196f, 0.5137254901960784f);
+		}
+		else {
+			glColor3f(1.0f, 0.2784313725490196f, 0.09803921568627451f);
+		}
+		glBegin(GL_TRIANGLES);
+		float x_start_top = 185.0f + (triangleWidth * i);
+		glVertex2i(x_start, 199);
+		glVertex2i(x_start + triangleWidth, 199);
+		glVertex2i(x_start + triangleWidth / 2.0f, 115);
+		glEnd();
+
+	}
+
+}
+void display(void) {
+	tablaCiz();
+	cerceveCiz();
+
+	float x_center = (35 + 185) / 2.0f; // TABLANIN MERKEZLERÝNÝ HESAPLADIM  
+	float y_center = (20 + 200) / 2.0f;
+
+	ortaCubukCiz(x_center);
+
+	//Ucgen ciz 
+	ucgenCiz(x_center);
+
+
+
+	glutSwapBuffers(); // Swap buffers for double buffering
+}
+
+
+
+
+
+
 //-------------------------------------------------------------------------------------------------------------------------------
 //BAHA YOLAL - gover: Tas Tasrimi
 
