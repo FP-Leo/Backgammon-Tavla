@@ -9,12 +9,16 @@
 
 //Leo
 void startingPosition();
-int checkMove(int, int, int);
+int makeMove(int, int, int);
+int checkMoveWhite(int, int, int);
+int checkMoveBlack(int, int, int);
 
 //Global Degisken Alani
 
 //Leo
 // 0 degeri - Beyaz, 1 ise siyah temsil eder. Beyaz tarafi 0dan 5'e kadar olan alanda toplicaktir. Siyah ise 18dan 23'e kadar olan alanda.
+int won = -1;
+
 int colorArray[24] = { -1 };
 int numberArray[24] = { 0 };
 // Kimin halmesidir, 0 - beyaz, 1 - siyah
@@ -279,78 +283,106 @@ void startingPosition() {
 }
 
 int makeMove(int currentIndex, int rolledNumber, int targetSquare) {
-    int result = checkMove(currentIndex, rolledNumber, targetSquare);
+	int result = 0;
+	switch (toMove) {
+		case 0: checkMoveWhite(currentIndex, rolledNumber, targetSquare); break;
+		case 1: checkMoveBlack(currentIndex, rolledNumber, targetSquare); break;
+	}
     if (result == 1){
-        if (toMove == 0 && !whiteReadyToCollect && targetSquare <= 5 && targetSquare >= 0) {
-            baseWhite++;
-            if (baseWhite + collectedWhite == 13)
-                whiteReadyToCollect = true;
-        }
-        else if (toMove == 1 && !blackReadyToCollect && targetSquare >= 18 && targetSquare <= 23) {
-            baseBlack++;
-            if (baseBlack + collectedBlack == 13)
-                blackReadyToCollect = true;
-        }
+		switch (toMove) {
+			case 0: if (collectedWhite == 13) won = 0; break;
+			case 1: if (collectedBlack == 13) won = 1; break;
+		}
     }
     return result;
 }
 
-int checkMove(int currentIndex, int rolledNumber, int targetSquare) {
-    if (toMove == 0 && targetSquare >= currentIndex)
-        return 0;
-    else if (toMove == 1 && targetSquare <= currentIndex)
-        return 0;
-    else if (colorArray[targetSquare] != toMove) {
-        if (numberArray[targetSquare] > 1) {
-            return 0;
-        }
-        numberArray[currentIndex]--;
-        if (numberArray[currentIndex] == 0) {
-            colorArray[currentIndex] = -1;
-        }
-        colorArray[targetSquare] = toMove;
-        switch (toMove) {
-            case 0: outsideBlack++; blackReadyToCollect = false; 
-                if (targetSquare >= 18 && targetSquare <= 23) {
-                    baseBlack--;
-                }
-                break;
-            case 1: outsideWhite++; whiteReadyToCollect = false; 
-                if (targetSquare <= 5 && targetSquare >= 0) {
-                    baseWhite--;
-                }
-                break;
-        }
-        return 1;
-    }
-    else if (targetSquare < 0) {
-        if (toMove == 1)
-            return 0;
-        if (whiteReadyToCollect && rolledNumber >= currentIndex) {
-            collectedWhite++;
-            baseWhite--;
-            return 1;
-        }
-        return 0;
-    }
-    else if (targetSquare > 23) {
-        if (toMove == 0)
-            return 0;
-        if (blackReadyToCollect && rolledNumber >= currentIndex) {
-            collectedBlack++;
-            baseBlack--;
-            return 1;
-        }
-        return 0;
-    }
-    else if (currentIndex + rolledNumber == targetSquare) {
-        numberArray[targetSquare]++;
-        colorArray[targetSquare] = toMove;
-        return 1;
-    }
-    else 
-        return 0;
+int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
+	if (targetSquare >= currentIndex)
+		return 0;
+	else if (outsideWhite > 0) {
+
+	}
+	else if (colorArray[targetSquare] != 0) {
+		if (numberArray[targetSquare] > 1) {
+			return 0;
+		}
+		colorArray[targetSquare] = 0;
+		outsideBlack++; 
+		blackReadyToCollect = false;
+		if (targetSquare >= 18 && targetSquare <= 23) {
+			baseBlack--;
+		}
+	}
+	else if (targetSquare < 0) {
+		if (!whiteReadyToCollect)
+			return 0;
+		if (currentIndex - rolledNumber <= 0) {
+			collectedWhite++;
+			baseWhite--;
+		}
+	}
+	else if (targetSquare > 23) {
+		return 0;
+	}else if (currentIndex - rolledNumber == targetSquare) {
+		numberArray[targetSquare]++;
+		colorArray[targetSquare] = 0;
+		if (targetSquare <= 5 && targetSquare >= 0)
+			baseWhite++;
+	}
+
+	numberArray[currentIndex]--;
+	if (numberArray[currentIndex] == 0) {
+		colorArray[currentIndex] = -1;
+	}
+
+	return 1;
 }
+
+int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
+	if (targetSquare <= currentIndex)
+		return 0;
+	else if (outsideBlack > 0) {
+
+	}
+	else if (colorArray[targetSquare] != 1) {
+		if (numberArray[targetSquare] > 1) {
+			return 0;
+		}
+		colorArray[targetSquare] = 1;
+		outsideWhite++;
+		whiteReadyToCollect = false;
+		if (targetSquare >= 0 && targetSquare <= 5) {
+			baseWhite--;
+		}
+	}
+	else if (targetSquare > 23) {
+		if (!blackReadyToCollect)
+			return 0;
+		if (currentIndex + rolledNumber >= 23) {
+			collectedBlack++;
+			baseBlack--;
+		}
+	}
+	else if (targetSquare < 0) {
+		return 0;
+	}
+	else if (currentIndex + rolledNumber == targetSquare) {
+		numberArray[targetSquare]++;
+		colorArray[targetSquare] = 1;
+		if (targetSquare >= 18 && targetSquare <= 23) {
+			baseBlack++;
+		}
+	}
+
+	numberArray[currentIndex]--;
+	if (numberArray[currentIndex] == 0) {
+		colorArray[currentIndex] = -1;
+	}
+
+	return 1;
+}
+
 //-------------------------------------------------------------------------------------------------------------------------------
 
 int main(int argc, char** argv) {
@@ -359,7 +391,7 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(500, 500);  
     glutInitWindowSize(800, 600);     
-    glutCreateWindow("OpenGL Hello World");
+    glutCreateWindow("Tavla");
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	gluOrtho2D(0.0, 222.0, 0.0, 220.0);
