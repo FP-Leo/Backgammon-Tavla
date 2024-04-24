@@ -9,13 +9,13 @@
 
 //Leo
 void startingPosition();
-int checkMove(int , int , int);
+int checkMove(int, int, int);
 
 //Global Degisken Alani
 
 //Leo
 // 0 degeri - Beyaz, 1 ise siyah temsil eder. Beyaz tarafi 0dan 5'e kadar olan alanda toplicaktir. Siyah ise 18dan 23'e kadar olan alanda.
-int colorArray[24] = { 0 }; 
+int colorArray[24] = { -1 };
 int numberArray[24] = { 0 };
 // Kimin halmesidir, 0 - beyaz, 1 - siyah
 int toMove = 0;
@@ -51,28 +51,63 @@ void startingPosition() {
     numberArray[0] = 2; numberArray[11] = 5; numberArray[16] = 3; numberArray[18] = 5;
 }
 
+int makeMove(int currentIndex, int rolledNumber, int targetSquare) {
+
+}
+
+int checkBase() {
+    int lowerBound = 0;
+    int upperBound = 7;
+    if (toMove == 1){
+        lowerBound = 18;
+        upperBound = 24;
+    }
+    int stonesFound = 0;
+    for (int i = lowerBound; i < upperBound; i++) {
+        if (colorArray[i] == toMove) {
+            stonesFound += numberArray[i];
+        }
+    }
+    if (stonesFound == 13)
+        return 1;
+    else
+        return 0;
+}
+
 int checkMove(int currentIndex, int rolledNumber, int targetSquare) {
     if (colorArray[targetSquare] != toMove) {
         if (numberArray[targetSquare] > 1) {
             return 0;
         }
-        colorArray[targetSquare] = !colorArray[targetSquare];
+        colorArray[targetSquare] = toMove;
         switch (toMove) {
             case 0: outsideBlack++; blackReadyToCollect = false; break;
             case 1: outsideWhite++; whiteReadyToCollect = false; break;
         }
+        return 1;
     }
     else if (targetSquare < 0) {
-        
+        if (toMove == 1)
+            return 0;
+        if (checkBase() && rolledNumber >= currentIndex) {
+            collectedWhite++;
+            return 1;
+        }
         return 0;
     }
     else if (targetSquare > 23) {
-        // To be implemented
+        if (toMove == 0)
+            return 0;
+        if (checkBase() && rolledNumber >= currentIndex) {
+            collectedBlack++;
+            return 1;
+        }
         return 0;
     }
     else if (currentIndex + rolledNumber == targetSquare) {
-        // To be implemented
-        return 0;
+        numberArray[targetSquare]++;
+        colorArray[targetSquare] = toMove;
+        return 1;
     }
     else 
         return 0;
