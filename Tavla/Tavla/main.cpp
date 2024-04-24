@@ -67,6 +67,7 @@ void solCep(void) {
 	glVertex2i(30, 20); // sað alt
 	glEnd();
 }
+
 void sagCep(void) {
 	// Sað 
 	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
@@ -101,6 +102,7 @@ void sagCep(void) {
 	glEnd();
 
 }
+
 void cerceveCiz(void) {
 	//Alt
 	glLineWidth(16.0f); // Kalýnlýk belirttim
@@ -141,6 +143,7 @@ void cerceveCiz(void) {
 
 
 }
+
 void tablaCiz(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(0.7215686274509804f, 0.5411764705882353f, 0.0f);
@@ -153,6 +156,7 @@ void tablaCiz(void) {
 	glVertex2i(200, 20); // sað alt
 	glEnd();
 }
+
 void ortaCubukCiz(float x_center) {
 
 	glLineWidth(32.0f); // Kalýnlýk belirttim
@@ -162,6 +166,7 @@ void ortaCubukCiz(float x_center) {
 	glVertex2i((35.0f + 185.0f) / 2, 20);
 	glEnd();
 }
+
 void ucgenCiz(float x_center) {
 	float width = 185.0f - 35.0f;
 	float height = 200.0f - 20.0f;
@@ -233,6 +238,7 @@ void ucgenCiz(float x_center) {
 	}
 
 }
+
 void display(void) {
 	tablaCiz();
 	cerceveCiz();
@@ -249,11 +255,6 @@ void display(void) {
 
 	glutSwapBuffers(); // Swap buffers for double buffering
 }
-
-
-
-
-
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //BAHA YOLAL - gover: Tas Tasrimi
@@ -359,6 +360,10 @@ int main(int argc, char** argv) {
     glutInitWindowPosition(500, 500);  
     glutInitWindowSize(800, 600);     
     glutCreateWindow("OpenGL Hello World");
+
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	gluOrtho2D(0.0, 222.0, 0.0, 220.0);
+	glutDisplayFunc(display);
 
     glutMainLoop();
 
