@@ -1,4 +1,4 @@
-#include "glew.h"
+ï»¿#include "glew.h"
 #include "freeglut.h"
 #include <iostream>
 
@@ -17,6 +17,17 @@ int checkMoveBlack(int, int, int);
 int getIndex(float, float);
 void mouseClick(int, int, int, int);
 
+//Baha
+void drawStones();
+void drawStoneIndex(int);
+void drawCircle(float, float, float);
+
+
+void rollDice();
+void drawDiceAndTurnIndicator();
+void handleDiceClick(int, int, int, int);
+void drawMoveIndicators();
+
 //Global Degisken Alani
 
 //Leo
@@ -25,6 +36,7 @@ int colorArray[24] = { -1 };
 int numberArray[24] = { 0 };
 // Kimin halmesidir, 0 - beyaz, 1 - siyah
 int toMove = 0;
+bool rolled = false;
 int rolledDicedOne = 0;
 int rolledDicedTwo = 0;
 int numberOfMoves = 0;
@@ -41,6 +53,21 @@ int blackReadyToCollect = false;
 int baseBlack = 0;
 int collectedBlack = 0;
 
+int clicked = 0;
+int firstIndex = -1;
+int secondIndex = -1;
+
+//Baha
+const int NUM_VERTICES = 360; // Dairenin Ã§Ã¶zÃ¼nÃ¼rlÃ¼gÃ¼
+const float BOARD_WIDTH = 800.0f; // Tahta geniÅŸligi
+const float BOARD_HEIGHT = 600.0f; // Tahta yÃ¼ksekligi
+const float STONE_RADIUS = 6.0f; // Tahta yÃ¼ksekligi
+
+
+float stonePositionsX[12] = { 179, 167, 155, 143, 131, 119, 99, 87, 75, 63, 51, 39 }; // TaÅŸlarÄ±n X konumlarÄ±, diger 12 konumlari soldan saga
+float stonePositionsYOne = 27; // TaÅŸlarÄ±n Y konumlarÄ± alt taraf
+float stonePositionsYTwo = 194;
+
 //-------------------------------------------------------------------------------------------------------------------------------
 //EREN NOKTA - gover: Tahta Tasarimi
 
@@ -51,9 +78,9 @@ void leftPocket(void) {
 
 	glBegin(GL_QUADS);
 	glVertex2i(15, 15); // sol alt
-	glVertex2i(15, 205); // sol üst
-	glVertex2i(35, 205); // sað üst
-	glVertex2i(35, 15); // sað alt
+	glVertex2i(15, 205); // sol Ã¼st
+	glVertex2i(35, 205); // saÃ° Ã¼st
+	glVertex2i(35, 15); // saÃ° alt
 	glEnd();
 
 
@@ -62,9 +89,9 @@ void leftPocket(void) {
 
 	glBegin(GL_QUADS);
 	glVertex2i(20, 200); // sol alt
-	glVertex2i(20, 116); // sol üst
-	glVertex2i(30, 116); // sað üst
-	glVertex2i(30, 200); // sað alt
+	glVertex2i(20, 116); // sol Ã¼st
+	glVertex2i(30, 116); // saÃ° Ã¼st
+	glVertex2i(30, 200); // saÃ° alt
 	glEnd();
 
 	glColor3f(0.7215686274509804f, 0.5411764705882353f, 0.0f);
@@ -72,22 +99,22 @@ void leftPocket(void) {
 
 	glBegin(GL_QUADS);
 	glVertex2i(20, 20); // sol alt
-	glVertex2i(20, 104); // sol üst
-	glVertex2i(30, 104); // sað üst
-	glVertex2i(30, 20); // sað alt
+	glVertex2i(20, 104); // sol Ã¼st
+	glVertex2i(30, 104); // saÃ° Ã¼st
+	glVertex2i(30, 20); // saÃ° alt
 	glEnd();
 }
 
 void rightPocket(void) {
-	// Sað 
+	// SaÃ° 
 	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
 	glPointSize(5.0f);
 
 	glBegin(GL_QUADS);
 	glVertex2i(187, 15); // sol alt
-	glVertex2i(187, 205); // sol üst
-	glVertex2i(205, 205); // sað üst
-	glVertex2i(205, 15); // sað alt
+	glVertex2i(187, 205); // sol Ã¼st
+	glVertex2i(205, 205); // saÃ° Ã¼st
+	glVertex2i(205, 15); // saÃ° alt
 	glEnd();
 
 
@@ -96,42 +123,42 @@ void rightPocket(void) {
 
 	glBegin(GL_QUADS);
 	glVertex2i(190, 200); // sol alt
-	glVertex2i(190, 116); // sol üst
-	glVertex2i(200, 116); // sað üst
-	glVertex2i(200, 200); // sað alt
+	glVertex2i(190, 116); // sol Ã¼st
+	glVertex2i(200, 116); // saÃ° Ã¼st
+	glVertex2i(200, 200); // saÃ° alt
 	glEnd();
 
 	glColor3f(0.7215686274509804f, 0.5411764705882353f, 0.0f);
 	glPointSize(5.0f);
 
-	glBegin(GL_QUADS); // yükseklik 84 birim
+	glBegin(GL_QUADS); // yÃ¼kseklik 84 birim
 	glVertex2i(190, 20); // sol alt
-	glVertex2i(190, 104); // sol üst
-	glVertex2i(200, 104); // sað üst
-	glVertex2i(200, 20); // sað alt
+	glVertex2i(190, 104); // sol Ã¼st
+	glVertex2i(200, 104); // saÃ° Ã¼st
+	glVertex2i(200, 20); // saÃ° alt
 	glEnd();
 
 }
 
 void drawFrame(void) {
 	//Alt
-	glLineWidth(16.0f); // Kalýnlýk belirttim
+	glLineWidth(16.0f); // KalÃ½nlÃ½k belirttim
 	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
 	glBegin(GL_LINES);
 	glVertex2i(31, 18);
 	glVertex2i(189, 18);
 	glEnd();
 
-	//Sað
-	glLineWidth(14.0f); // Kalýnlýk belirttim
+	//SaÃ°
+	glLineWidth(14.0f); // KalÃ½nlÃ½k belirttim
 	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
 	glBegin(GL_LINES);
 	glVertex2i(187, 20);
 	glVertex2i(187, 200);
 	glEnd();
 
-	//Üst
-	glLineWidth(16.0f); // Kalýnlýk belirttim
+	//Ãœst
+	glLineWidth(16.0f); // KalÃ½nlÃ½k belirttim
 	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
 	glBegin(GL_LINES);
 	glVertex2i(189, 202);
@@ -139,7 +166,7 @@ void drawFrame(void) {
 	glEnd();
 
 	//Sol
-	glLineWidth(14.0f); // Kalýnlýk belirttim
+	glLineWidth(14.0f); // KalÃ½nlÃ½k belirttim
 	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
 	glBegin(GL_LINES);
 	glVertex2i(33, 200);
@@ -157,15 +184,15 @@ void drawBackgammonBoard(void) {
 
 	glBegin(GL_QUADS);
 	glVertex2i(35, 20); // sol alt
-	glVertex2i(35, 200); // sol üst
-	glVertex2i(200, 200); // sað üst
-	glVertex2i(200, 20); // sað alt
+	glVertex2i(35, 200); // sol Ã¼st
+	glVertex2i(200, 200); // saÃ° Ã¼st
+	glVertex2i(200, 20); // saÃ° alt
 	glEnd();
 }
 
 void drawSplitter(float x_center) {
 
-	glLineWidth(32.0f); // Kalýnlýk belirttim
+	glLineWidth(32.0f); // KalÃ½nlÃ½k belirttim
 	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
 	glBegin(GL_LINES);
 	glVertex2i((35.0f + 185.0f) / 2, 200);
@@ -176,11 +203,11 @@ void drawSplitter(float x_center) {
 void drawTriangles(float x_center) {
 	float width = 185.0f - 35.0f; // 150
 	float height = 200.0f - 20.0f;
-	float triangleWidth = width / 12.8f; // 11.71 ortalama her bir üçgenin geniþliði
+	float triangleWidth = width / 12.8f; // 11.71 ortalama her bir Ã¼Ã§genin geniÃ¾liÃ°i
 	float triangleHeight = height / 4.0f;
 
 	for (int i = 0; i < 6; i++) {
-		//Sol alt taraf üçgenleri
+		//Sol alt taraf Ã¼Ã§genleri
 		if (i % 2 == 0) {
 			glColor3f(1.0f, 0.2784313725490196f, 0.09803921568627451f);
 		}
@@ -188,48 +215,48 @@ void drawTriangles(float x_center) {
 			glColor3f(0.6745098039215687f, 0.6784313725490196f, 0.5137254901960784f);
 		}
 		glBegin(GL_TRIANGLES);
-		float x_start_bottom_left = 35.0f + (triangleWidth * i); // Her bir üçgen için baþlangýç deðeri 35 + triangleWidth * i olacak þekilde yani = 35-46,7 , 46,7-58,4 arasýnda x deðerleri 
+		float x_start_bottom_left = 35.0f + (triangleWidth * i); // Her bir Ã¼Ã§gen iÃ§in baÃ¾langÃ½Ã§ deÃ°eri 35 + triangleWidth * i olacak Ã¾ekilde yani = 35-46,7 , 46,7-58,4 arasÃ½nda x deÃ°erleri 
 		glVertex2i(x_start_bottom_left, 20);
 		glVertex2i(x_start_bottom_left + triangleWidth, 20);
-		glVertex2i(x_start_bottom_left + triangleWidth / 2.0f, 105); // h =85 sanýrým 
+		glVertex2i(x_start_bottom_left + triangleWidth / 2.0f, 105); // h =85 sanÃ½rÃ½m 
 		glEnd();
 
-		//Ayrýca alt taraf üçgenleri için 35-20 , 46,7-20 , 35-105 , 46,7-105 þeklinde 
+		//AyrÃ½ca alt taraf Ã¼Ã§genleri iÃ§in 35-20 , 46,7-20 , 35-105 , 46,7-105 Ã¾eklinde 
 		// 
-		// yani yukarýdaki üçgenlerin y noktalarý 115-199 arasýndandýr
-		// aþaðýdaki üçgenlerin y noktalarý 20,105 arasýndadýr
+		// yani yukarÃ½daki Ã¼Ã§genlerin y noktalarÃ½ 115-199 arasÃ½ndandÃ½r
+		// aÃ¾aÃ°Ã½daki Ã¼Ã§genlerin y noktalarÃ½ 20,105 arasÃ½ndadÃ½r
 
-		// Üçgenlerin x noktalarýný belirlerken
-		// yukarýdaki fonksiyondan yola çýkarak 35 + üçgen geniþliði ( üçgenlerimiz 11.7 geniþliðindedir) * i ( kaçýncý üçgen olduðu).
-		// yani ilk üçgen için 35 - 46.7 arasýnda , 2.üçgen için 46.7 ile 58.4 arasýnda ... ( Bu þekilde devam etmektedir)
-		// Bir index aralýð 11.7 birimdir çünkü üçgenlerimizin geniþliði budur
-		// ayrýca Sol alt , Sað alt , Sol üst ve Sað üst olacak þekilde 4 tane döngüden türemiþtir 
+		// ÃœÃ§genlerin x noktalarÃ½nÃ½ belirlerken
+		// yukarÃ½daki fonksiyondan yola Ã§Ã½karak 35 + Ã¼Ã§gen geniÃ¾liÃ°i ( Ã¼Ã§genlerimiz 11.7 geniÃ¾liÃ°indedir) * i ( kaÃ§Ã½ncÃ½ Ã¼Ã§gen olduÃ°u).
+		// yani ilk Ã¼Ã§gen iÃ§in 35 - 46.7 arasÃ½nda , 2.Ã¼Ã§gen iÃ§in 46.7 ile 58.4 arasÃ½nda ... ( Bu Ã¾ekilde devam etmektedir)
+		// Bir index aralÃ½Ã° 11.7 birimdir Ã§Ã¼nkÃ¼ Ã¼Ã§genlerimizin geniÃ¾liÃ°i budur
+		// ayrÃ½ca Sol alt , SaÃ° alt , Sol Ã¼st ve SaÃ° Ã¼st olacak Ã¾ekilde 4 tane dÃ¶ngÃ¼den tÃ¼remiÃ¾tir 
 
 
-		// X deðiþkenleri base noktalarý
-		// Sol alt için baþlangýç noktasý : 35.0f
-		// Sað alt için baþlangýç noktasý : 115.0f
-		// Sol üst için baþlangýç noktasý : 35.0f 
-		// Sað üst için baþlangýç noktasý : 115.0f 
+		// X deÃ°iÃ¾kenleri base noktalarÃ½
+		// Sol alt iÃ§in baÃ¾langÃ½Ã§ noktasÃ½ : 35.0f
+		// SaÃ° alt iÃ§in baÃ¾langÃ½Ã§ noktasÃ½ : 115.0f
+		// Sol Ã¼st iÃ§in baÃ¾langÃ½Ã§ noktasÃ½ : 35.0f 
+		// SaÃ° Ã¼st iÃ§in baÃ¾langÃ½Ã§ noktasÃ½ : 115.0f 
 
-		// Ayný üçgenler için y deðiþkenleri 
-		// Sol alt için baþlangýç Y noktasý : alt taraf noktalarý 20'den üst taraf ise 105'den 
+		// AynÃ½ Ã¼Ã§genler iÃ§in y deÃ°iÃ¾kenleri 
+		// Sol alt iÃ§in baÃ¾langÃ½Ã§ Y noktasÃ½ : alt taraf noktalarÃ½ 20'den Ã¼st taraf ise 105'den 
 		/*
 				(35.0f,105.0f)					(46.7f,105.0f)
 
 
 				(35.0f,20.0f)					(46.7f , 105.0f)
 
-				bu alt tarafýn ilk üçgeninin bulunduðu dikdörtgene ait bilgilerdir.
-				bir sonraki üçgenin baþlangiç noktasý bir önceki üçgenin son 2 noktasýndan baþlayacak þekilde +11.7 'dir
-				YANÝ
+				bu alt tarafÃ½n ilk Ã¼Ã§geninin bulunduÃ°u dikdÃ¶rtgene ait bilgilerdir.
+				bir sonraki Ã¼Ã§genin baÃ¾langiÃ§ noktasÃ½ bir Ã¶nceki Ã¼Ã§genin son 2 noktasÃ½ndan baÃ¾layacak Ã¾ekilde +11.7 'dir
+				YANÃ
 
 				(46.7,105.0f)					(58.4,105.0f)
 
 				(46.7,20.0f)					(58.4,105.0f)
 
-				Bu þekilde devam etmektedir
-				Bu þekilde sol alttaki 6 üçgenin indexlerini bulabilirsiniz.
+				Bu Ã¾ekilde devam etmektedir
+				Bu Ã¾ekilde sol alttaki 6 Ã¼Ã§genin indexlerini bulabilirsiniz.
 
 
 
@@ -238,7 +265,7 @@ void drawTriangles(float x_center) {
 
 
 
-		// Sol üst taraf üçgen çizimleri
+		// Sol Ã¼st taraf Ã¼Ã§gen Ã§izimleri
 		if (i % 2 == 0) {
 			glColor3f(0.6745098039215687f, 0.6784313725490196f, 0.5137254901960784f);
 		}
@@ -255,7 +282,7 @@ void drawTriangles(float x_center) {
 	}
 
 	for (int i = 0; i < 6; i++) {
-		//Sað alt taraf üçgen çizimi
+		//SaÃ° alt taraf Ã¼Ã§gen Ã§izimi
 		if (i % 2 == 0) {
 			glColor3f(1.0f, 0.2784313725490196f, 0.09803921568627451f);
 		}
@@ -269,7 +296,7 @@ void drawTriangles(float x_center) {
 		glVertex2i(x_start_bottom_right + triangleWidth / 2.0f, 105);
 		glEnd();
 
-		// Sað üst taraf üçgen çizimi
+		// SaÃ° Ã¼st taraf Ã¼Ã§gen Ã§izimi
 		if (i % 2 == 0) {
 			glColor3f(0.6745098039215687f, 0.6784313725490196f, 0.5137254901960784f);
 		}
@@ -290,8 +317,9 @@ void drawTriangles(float x_center) {
 void display(void) {
 	drawBackgammonBoard();
 	drawFrame();
+	
 
-	float x_center = (35 + 185) / 2.0f; // TABLANIN MERKEZLERÝNÝ HESAPLADIM  
+	float x_center = (35 + 185) / 2.0f; // TABLANIN MERKEZLERÃNÃ HESAPLADIM  
 	float y_center = (20 + 200) / 2.0f;
 
 	drawSplitter(x_center);
@@ -299,6 +327,16 @@ void display(void) {
 	//Ucgen ciz 
 	drawTriangles(x_center);
 
+	drawStones();
+	drawDiceAndTurnIndicator();
+	if (rolled == false) {
+		glutMouseFunc(handleDiceClick);  // Register handleDiceClick ONLY when not rolled
+	}
+	else {
+		drawMoveIndicators();
+		glutMouseFunc(mouseClick);       // Register mouseClick when rolled
+	}
+	
 
 
 	glutSwapBuffers(); // Swap buffers for double buffering
@@ -306,6 +344,53 @@ void display(void) {
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //BAHA YOLAL - gover: Tas Tasrimi
+
+
+void drawCircle(float x, float y, float radius) {
+	glBegin(GL_POLYGON);
+	for (int i = 0; i < NUM_VERTICES; i++) {
+		float theta = 2.0f * 3.1415926f * float(i) / float(NUM_VERTICES);
+		float dx = radius * cosf(theta);
+		float dy = radius * sinf(theta);
+		glVertex2f(x + dx, y + dy);
+	}
+	glEnd();
+}
+
+void drawStoneIndex(int index){
+	int x;
+	int y;
+	int toAdd; 
+
+	if (index < 12 && index >= 0) {
+		x = stonePositionsX[index];
+		y = stonePositionsYOne;
+		toAdd = 2 * STONE_RADIUS;
+	}
+	else if (index < 24 && index > 11) {
+		x = stonePositionsX[23-index];
+		y = stonePositionsYTwo;
+		toAdd = -2 * STONE_RADIUS;
+	}
+	else {
+		return;
+	}
+
+	for (int i = 0; i < numberArray[index]; i++) {
+		drawCircle(x, y+i*toAdd, STONE_RADIUS);
+	}
+}
+
+void drawStones() {
+	// TaÅŸlarÄ± Ã§iz
+	for (int i = 0; i < 24; i++) {
+		switch(colorArray[i]){
+			case 0: glColor3f(1.0, 1.0, 1.0); drawStoneIndex(i); break; // Beyaz
+			case 1: glColor3f(0.0, 0.0, 0.0); drawStoneIndex(i); break; // Siyah
+			default: break;
+		}
+	}
+}
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //ERLINDI ISAJ - gorev: Zar Tasarimi 
@@ -507,9 +592,109 @@ void mouseClick(int button, int state, int x, int y) {
 
 		// TODO: Perform any necessary actions based on the clicked coordinates,
 		// such as identifying the clicked game piece or board location.
+
 	}
 }
 
+//----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+void rollDice() {
+	rolledDicedOne = rand() % 6 + 1;  // Generate random numbers between 1 and 6
+	rolledDicedTwo = rand() % 6 + 1;
+	numberOfMoves = (rolledDicedOne == rolledDicedTwo) ? 4 : 2; // 4 moves if same, else 2
+	cout << "Rolled: " << rolledDicedOne << " and " << rolledDicedTwo << endl;
+}
+
+void drawDiceAndTurnIndicator() {
+	// Black frame for die - Positioned outside the board with padding
+	glColor3f(0.0f, 0.0f, 0.0f); // Black frame
+	glLineWidth(2.0f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2i(210, 80);  // Smaller frame for die
+	glVertex2i(210, 90);
+	glVertex2i(220, 90);
+	glVertex2i(220, 80);
+	glEnd();
+
+	// Die face square (static) - Smaller square
+	glColor3f(1.0f, 1.0f, 1.0f); // White background
+	glBegin(GL_QUADS);
+	glVertex2i(212, 82);
+	glVertex2i(212, 88);
+	glVertex2i(218, 88);
+	glVertex2i(218, 82);
+	glEnd();
+
+	// Draw dots representing a static die face (e.g., showing 1)
+	glColor3f(0.0f, 0.0f, 0.0f); // Black dots
+	glPointSize(5.0f);
+	glBegin(GL_POINTS);
+	glVertex2i(215, 85);  // Center dot
+	glEnd();
+
+	// Turn indicator frame - Positioned outside the board with padding
+	glColor3f(0.0f, 0.0f, 0.0f); // Black frame
+	glLineWidth(2.0f);
+	glBegin(GL_LINE_LOOP);
+	glVertex2i(210, 110);  // Adjusted y position
+	glVertex2i(210, 120);
+	glVertex2i(220, 120);
+	glVertex2i(220, 110);
+	glEnd();
+
+	// Turn indicator square - Smaller square
+	if (toMove == 0) {
+		glColor3f(1.0f, 1.0f, 1.0f); // White for white's turn
+	}
+	else {
+		glColor3f(0.0f, 0.0f, 0.0f); // Black for black's turn
+	}
+	glBegin(GL_QUADS);
+	glVertex2i(212, 112);
+	glVertex2i(212, 118);
+	glVertex2i(218, 118);
+	glVertex2i(218, 112);
+	glEnd();
+}
+
+void drawMoveIndicators() {
+	// Move indicator rectangles (red) - Below the die square, vertical with spacing
+	glColor3f(1.0f, 0.0f, 0.0f); // Red color
+	for (int i = 0; i < numberOfMoves; i++) {
+		glBegin(GL_QUADS);
+		glVertex2i(210 + i * 3, 130); // Added spacing between rectangles
+		glVertex2i(212 + i * 3, 130);
+		glVertex2i(212 + i * 3, 132);
+		glVertex2i(210 + i * 3, 132);
+		glEnd();
+	}
+}
+
+void handleDiceClick(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		GLint viewport[4];
+		glGetIntegerv(GL_VIEWPORT, viewport);
+		GLdouble modelview[16];
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+		GLdouble projection[16];
+		glGetDoublev(GL_PROJECTION_MATRIX, projection);
+
+		GLfloat winX = (float)x;
+		GLfloat winY = (float)viewport[3] - (float)y;
+		GLdouble posX, posY, posZ;
+
+		gluUnProject(winX, winY, 0.0, modelview, projection, viewport, &posX, &posY, &posZ);
+
+		// Check if click is within EITHER square (die or turn indicator)
+		if (posX >= 210 && posX <= 220 && posY >= 80 && posY <= 90) { // Die square
+			rollDice();  // Generate random numbers
+			rolled = true;
+			glutPostRedisplay(); // Redraw
+		}
+	}
+}
 //-------------------------------------------------------------------------------------------------------------------------------
 
 int main(int argc, char** argv) {
@@ -517,14 +702,13 @@ int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(500, 500);  
-    glutInitWindowSize(800, 600);     
+    glutInitWindowSize(BOARD_WIDTH, BOARD_HEIGHT);
     glutCreateWindow("Tavla");
 
-	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClearColor(0.9f, 0.9f, 0.8f, 1.0f);
 	gluOrtho2D(0.0, 222.0, 0.0, 220.0);
+	startingPosition();
 	glutDisplayFunc(display);
-
-	glutMouseFunc(mouseClick);
 
     glutMainLoop();
 
