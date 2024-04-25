@@ -1,5 +1,6 @@
 ﻿  main.cpp
 <<<<<<< HEAD
+<<<<<<< HEAD
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(169,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(170,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(192,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
@@ -16,6 +17,9 @@ C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(238,22): warning C4
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(239,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
   LINK : C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\x64\Debug\Tavla.exe not found or not built by the last incremental link; performing full link
   Tavla.vcxproj -> C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\x64\Debug\Tavla.exe
+=======
+C:\Users\itsme\OneDrive\Belgeler\GitHub\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1,10): error C1083: içerme dosyası açılamıyor: 'glew.h': No such file or directory
+>>>>>>> parent of c926930 (Merge branch 'main' into Tavla-ui)
 =======
 C:\Users\itsme\OneDrive\Belgeler\GitHub\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1,10): error C1083: içerme dosyası açılamıyor: 'glew.h': No such file or directory
 >>>>>>> parent of c926930 (Merge branch 'main' into Tavla-ui)
