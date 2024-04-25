@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\leoni\\Desktop\\Tavla-NDAT-Proje\\Tavla\\",
+  "WorkspaceRootPath": "C:\\Users\\itsme\\OneDrive\\Belgeler\\GitHub\\Tavla-NDAT-Proje\\Tavla\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9689A927-B468-4EF4-9915-759D66DE60C0}|Tavla\\Tavla.vcxproj|C:\\Users\\leoni\\Desktop\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{9689A927-B468-4EF4-9915-759D66DE60C0}|Tavla\\Tavla.vcxproj|C:\\Users\\itsme\\OneDrive\\Belgeler\\GitHub\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{9689A927-B468-4EF4-9915-759D66DE60C0}|Tavla\\Tavla.vcxproj|solutionrelative:Tavla\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -20,11 +20,15 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\leoni\\Desktop\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp",
+              "DocumentMoniker": "C:\\Users\\itsme\\OneDrive\\Belgeler\\GitHub\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp",
               "RelativeDocumentMoniker": "Tavla\\main.cpp",
-              "ToolTip": "C:\\Users\\leoni\\Desktop\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp",
+              "ToolTip": "C:\\Users\\itsme\\OneDrive\\Belgeler\\GitHub\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp",
               "RelativeToolTip": "Tavla\\main.cpp",
+<<<<<<< HEAD
               "ViewState": "AQIAAAAAAAAAAAAAAAAAANMAAAAAAAAA",
+=======
+              "ViewState": "AQIAABUAAAAAAAAAAAAkwPgAAAABAAAA",
+>>>>>>> parent of c926930 (Merge branch 'main' into Tavla-ui)
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-04-22T11:01:29.805Z",
               "EditorCaption": ""
