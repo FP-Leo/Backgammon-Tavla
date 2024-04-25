@@ -1,10 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\leoni\\Desktop\\Tavla-NDAT-Proje\\Tavla\\",
+  "WorkspaceRootPath": "C:\\Users\\USER\\Documents\\\u00DCniversite 23-24\\2. D\u00F6nem\\Nesneye Dayal\u0131 Analiz ve Tasar\u0131m\\Tavla-NDAT-Proje\\Tavla\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9689A927-B468-4EF4-9915-759D66DE60C0}|Tavla\\Tavla.vcxproj|C:\\Users\\leoni\\Desktop\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{9689A927-B468-4EF4-9915-759D66DE60C0}|Tavla\\Tavla.vcxproj|solutionrelative:Tavla\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\USER\\Desktop\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -20,11 +19,11 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\leoni\\Desktop\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp",
-              "RelativeDocumentMoniker": "Tavla\\main.cpp",
-              "ToolTip": "C:\\Users\\leoni\\Desktop\\Tavla-NDAT-Proje\\Tavla\\Tavla\\main.cpp",
-              "RelativeToolTip": "Tavla\\main.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAFAAAA",
+              "DocumentMoniker": "C:\\Users\\USER\\Desktop\\main.cpp",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Desktop\\main.cpp",
+              "ToolTip": "C:\\Users\\USER\\Desktop\\main.cpp",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Desktop\\main.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAALUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-04-22T11:01:29.805Z",
               "EditorCaption": ""
