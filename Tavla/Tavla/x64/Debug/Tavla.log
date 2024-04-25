@@ -1,17 +1,17 @@
 ﻿  main.cpp
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(165,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(166,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(188,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(189,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(190,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(202,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(203,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(204,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(219,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(220,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(221,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(233,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(234,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(235,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(384,1): warning C4715: 'checkMove': not all control paths return a value
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(169,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(170,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(192,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(193,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(194,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(206,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(207,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(208,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(223,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(224,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(225,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(237,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(238,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(239,22): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+  LINK : C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\x64\Debug\Tavla.exe not found or not built by the last incremental link; performing full link
   Tavla.vcxproj -> C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\x64\Debug\Tavla.exe
