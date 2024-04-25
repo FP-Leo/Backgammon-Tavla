@@ -302,6 +302,168 @@ void display(void) {
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //ERLINDI ISAJ - gorev: Zar Tasarimi 
+// Angle of rotation
+GLfloat angle = 0.0f;
+GLboolean rotateFlag = GL_FALSE;
+int dice1;
+int dice2;
+
+
+int randomNumber() {
+	return rand() % 6 + 1;
+}
+
+/*
+	int rollDice() {
+		srand(time(0));
+		int dice = randomNumber();
+		return dice;
+	}
+*/
+
+
+
+
+void drawText(float x, float y, float z, std::string text) {
+	glRasterPos3f(x, y, z);
+
+	for (char c : text) {
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, c);
+	}
+}
+
+
+
+void drawCube() {
+
+	// glRotatef(angle, 1.0, 1.0, 1.0); // Rotate the cube
+	// glTranslatef(0.0, 0.0, -5.0);
+
+	 // Front face (blue)
+	glBegin(GL_QUADS);
+	glColor3f(0.0, 0.0, 1.0);
+	glVertex3f(-1.0, -1.0, 1.0);
+	glVertex3f(1.0, -1.0, 1.0);
+	glVertex3f(1.0, 1.0, 1.0);
+	glVertex3f(-1.0, 1.0, 1.0);
+	glEnd();
+
+	// Back face (darker blue)
+	glBegin(GL_QUADS);
+	glColor3f(0.0, 0.0, 0.5);
+	glVertex3f(-1.0, -1.0, -1.0);
+	glVertex3f(-1.0, 1.0, -1.0);
+	glVertex3f(1.0, 1.0, -1.0);
+	glVertex3f(1.0, -1.0, -1.0);
+	glEnd();
+
+
+	glBegin(GL_QUADS);
+	glColor3f(0.0, 0.0, 0.8); // Lighter shade
+	glVertex3f(1.0, -1.0, -1.0);
+	glVertex3f(1.0, 1.0, -1.0);
+	glVertex3f(1.0, 1.0, 1.0);
+	glVertex3f(1.0, -1.0, 1.0);
+
+	glColor3f(0.0, 0.0, 0.6); // Medium shade
+	glVertex3f(-1.0, -1.0, -1.0);
+	glVertex3f(-1.0, -1.0, 1.0);
+	glVertex3f(1.0, -1.0, 1.0);
+	glVertex3f(1.0, -1.0, -1.0);
+
+	glColor3f(0.0, 0.0, 0.4); // Darker shade
+	glVertex3f(-1.0, -1.0, -1.0);
+	glVertex3f(-1.0, -1.0, 1.0);
+	glVertex3f(-1.0, 1.0, 1.0);
+	glVertex3f(-1.0, 1.0, -1.0);
+	glEnd();
+
+
+	glColor3f(1.0, 1.0, 1.0);
+	// drawText(-0.1, -0.1, 1.01, "5"); // Front face
+   //  drawText(-0.1, -0.1, -1.01, "2"); // Back face
+   //  drawText(1.01, -0.1, -0.1, "4"); // Right face
+   //  drawText(-1.01, -0.1, -0.1, "3"); // Left face
+   //  drawText(-0.1, 1.01, -0.1, "1"); // Top face
+  //   drawText(-0.1, -1.01, -0.1, "6"); // Bottom face
+
+
+
+
+}
+
+
+
+
+void rollDice(int value) {
+	angle += 10.f;
+	if (angle > 360) {
+		angle = 0;
+		rotateFlag = GL_FALSE;
+	}
+	glutPostRedisplay();
+	if (rotateFlag) {
+		glutTimerFunc(15, rollDice, 0);
+	}
+}
+
+void getDiceValues() {
+	srand(static_cast<unsigned int>(std::time(nullptr)));
+	for (int i = 0; i < 2; i++) {
+		if (i == 0) {
+			dice1 = randomNumber();
+		}
+		else {
+			dice2 = randomNumber();
+		}
+	}
+	std::cout << dice1 << " " << dice2;
+}
+
+
+
+
+void keyboard(unsigned char Key, int x, int y) {
+	switch (Key) {
+	case 'r':
+		getDiceValues();
+		rotateFlag = GL_TRUE; // Start rotating
+		glutTimerFunc(0, rollDice, 0);
+		break;
+	}
+}
+
+
+
+// Function to handle window resizing
+void reshape(int width, int height) {
+	if (height == 0) height = 1; // Prevent division by zero
+	glViewport(0, 0, width, height); // Set the viewport to cover the entire window
+	glMatrixMode(GL_PROJECTION); // Switch to the projection matrix
+	glLoadIdentity(); // Reset the projection matrix
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f); // Set the perspective
+	glMatrixMode(GL_MODELVIEW); // Switch back to the model-view matrix
+}
+
+
+
+void displayDice() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glLoadIdentity();
+	glTranslatef(3.0f, 0.0f, -30.0f); //Position the First Dice
+	glRotatef(angle, 1.0f, 1.0f, 1.0f);
+	drawCube();
+
+	glLoadIdentity();
+	glTranslatef(6.0f, 0.0f, -30.0f); //Position the Second Dice
+	glRotatef(angle, 1.0f, 1.0f, 1.0f);
+	drawCube();
+
+	glutSwapBuffers();
+}
+
+
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //LEONIT SHABANI - gorev: Oyun Mantigi
@@ -434,6 +596,19 @@ int main(int argc, char** argv) {
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	gluOrtho2D(0.0, 222.0, 0.0, 220.0);
 	glutDisplayFunc(display);
+
+
+
+
+		// Erlindi
+			//glutDisplayFunc(displayDice);
+			//glutReshapeFunc(reshape);
+			//glutKeyboardFunc(keyboard);
+
+			//glEnable(GL_DEPTH_TEST);
+			//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+		//////////////////////////////////////////  
 
     glutMainLoop();
 
