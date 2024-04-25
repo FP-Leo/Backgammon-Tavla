@@ -37,6 +37,7 @@ int collectedBlack = 0;
 //-------------------------------------------------------------------------------------------------------------------------------
 //EREN NOKTA - gover: Tahta Tasarimi
 
+
 void leftPocket(void) {
 	// Sol Cep
 	glColor3f(0.4f, 0.1960f, 0.0f); // Kahve
@@ -280,22 +281,7 @@ void drawTriangles(float x_center) {
 
 }
 
-void display(void) {
-	drawBackgammonBoard();
-	drawFrame();
 
-	float x_center = (35 + 185) / 2.0f; // TABLANIN MERKEZLERÝNÝ HESAPLADIM  
-	float y_center = (20 + 200) / 2.0f;
-
-	drawSplitter(x_center);
-
-	//Ucgen ciz 
-	drawTriangles(x_center);
-
-
-
-	glutSwapBuffers(); // Swap buffers for double buffering
-}
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //BAHA YOLAL - gover: Tas Tasrimi
@@ -304,6 +290,7 @@ void display(void) {
 //ERLINDI ISAJ - gorev: Zar Tasarimi 
 // Angle of rotation
 GLfloat angle = 0.0f;
+int window2D, window3D;
 GLboolean rotateFlag = GL_FALSE;
 int dice1;
 int dice2;
@@ -313,84 +300,96 @@ int randomNumber() {
 	return rand() % 6 + 1;
 }
 
-/*
-	int rollDice() {
-		srand(time(0));
-		int dice = randomNumber();
-		return dice;
-	}
-*/
-
-
-
-
-void drawText(float x, float y, float z, std::string text) {
-	glRasterPos3f(x, y, z);
-
-	for (char c : text) {
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, c);
-	}
-}
-
 
 
 void drawCube() {
 
-	// glRotatef(angle, 1.0, 1.0, 1.0); // Rotate the cube
-	// glTranslatef(0.0, 0.0, -5.0);
-
-	 // Front face (blue)
-	glBegin(GL_QUADS);
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex3f(-1.0, -1.0, 1.0);
-	glVertex3f(1.0, -1.0, 1.0);
-	glVertex3f(1.0, 1.0, 1.0);
-	glVertex3f(-1.0, 1.0, 1.0);
-	glEnd();
-
-	// Back face (darker blue)
-	glBegin(GL_QUADS);
-	glColor3f(0.0, 0.0, 0.5);
-	glVertex3f(-1.0, -1.0, -1.0);
-	glVertex3f(-1.0, 1.0, -1.0);
-	glVertex3f(1.0, 1.0, -1.0);
-	glVertex3f(1.0, -1.0, -1.0);
-	glEnd();
-
+	// Set the color to gray for all faces
+	glColor3f(0.7f, 0.7f, 0.7f);
 
 	glBegin(GL_QUADS);
-	glColor3f(0.0, 0.0, 0.8); // Lighter shade
-	glVertex3f(1.0, -1.0, -1.0);
-	glVertex3f(1.0, 1.0, -1.0);
-	glVertex3f(1.0, 1.0, 1.0);
-	glVertex3f(1.0, -1.0, 1.0);
 
-	glColor3f(0.0, 0.0, 0.6); // Medium shade
-	glVertex3f(-1.0, -1.0, -1.0);
-	glVertex3f(-1.0, -1.0, 1.0);
-	glVertex3f(1.0, -1.0, 1.0);
-	glVertex3f(1.0, -1.0, -1.0);
+	// Front face
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+	glVertex3f(1.0f, -1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f);
 
-	glColor3f(0.0, 0.0, 0.4); // Darker shade
-	glVertex3f(-1.0, -1.0, -1.0);
-	glVertex3f(-1.0, -1.0, 1.0);
-	glVertex3f(-1.0, 1.0, 1.0);
-	glVertex3f(-1.0, 1.0, -1.0);
+	// Back face
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, -1.0f, -1.0f);
+
+	// Right face
+	glVertex3f(1.0f, -1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, -1.0f, 1.0f);
+
+	// Left face
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+
+	// Top face
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+
+	// Bottom face
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(1.0f, -1.0f, -1.0f);
+	glVertex3f(1.0f, -1.0f, 1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+
 	glEnd();
 
+	// Draw black dots for dice pips
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glPointSize(10.0f);
+	glBegin(GL_POINTS);
 
-	glColor3f(1.0, 1.0, 1.0);
-	// drawText(-0.1, -0.1, 1.01, "5"); // Front face
-   //  drawText(-0.1, -0.1, -1.01, "2"); // Back face
-   //  drawText(1.01, -0.1, -0.1, "4"); // Right face
-   //  drawText(-1.01, -0.1, -0.1, "3"); // Left face
-   //  drawText(-0.1, 1.01, -0.1, "1"); // Top face
-  //   drawText(-0.1, -1.01, -0.1, "6"); // Bottom face
+	// Front face (one dot)
+	glVertex3f(0.0f, 0.0f, 1.01f);
 
+	// Back face (six dots) - arrange in a 2x3 grid
+	glVertex3f(-0.5f, -0.5f, -1.01f);
+	glVertex3f(0.5f, -0.5f, -1.01f);
+	glVertex3f(-0.5f, 0.5f, -1.01f);
+	glVertex3f(0.5f, 0.5f, -1.01f);
+	glVertex3f(-0.5f, 0.0f, -1.01f);
+	glVertex3f(0.5f, 0.0f, -1.01f);
 
+	// Right face (four dots) - arrange in a 2x2 grid 
+	glVertex3f(1.01f, -0.5f, -0.5f);
+	glVertex3f(1.01f, 0.5f, -0.5f);
+	glVertex3f(1.01f, -0.5f, 0.5f);
+	glVertex3f(1.01f, 0.5f, 0.5f);
 
+	// Left face (three dots) - arrange in a triangle
+	glVertex3f(-1.01f, -0.5f, 0.0f);
+	glVertex3f(-1.01f, 0.5f, -0.5f);
+	glVertex3f(-1.01f, 0.5f, 0.5f);
+
+	// Top face (five dots) - arrange in a quincunx pattern
+	glVertex3f(-0.5f, 1.01f, -0.5f);
+	glVertex3f(0.5f, 1.01f, -0.5f);
+	glVertex3f(-0.5f, 1.01f, 0.5f);
+	glVertex3f(0.5f, 1.01f, 0.5f);
+	glVertex3f(0.0f, 1.01f, 0.0f);
+
+	// Bottom face (two dots)
+	glVertex3f(-0.5f, -1.01f, 0.0f);
+	glVertex3f(0.5f, -1.01f, 0.0f);
+	glEnd();
 
 }
+
+
+
 
 
 
@@ -407,6 +406,7 @@ void rollDice(int value) {
 	}
 }
 
+
 void getDiceValues() {
 	srand(static_cast<unsigned int>(std::time(nullptr)));
 	for (int i = 0; i < 2; i++) {
@@ -420,7 +420,8 @@ void getDiceValues() {
 	std::cout << dice1 << " " << dice2;
 }
 
-
+// Global variable to track the current view (0 for 2D, 1 for 3D)
+int currentView = 0;
 
 
 void keyboard(unsigned char Key, int x, int y) {
@@ -429,40 +430,18 @@ void keyboard(unsigned char Key, int x, int y) {
 		getDiceValues();
 		rotateFlag = GL_TRUE; // Start rotating
 		glutTimerFunc(0, rollDice, 0);
+		glutPostRedisplay(); // Redisplay the scene
+		break;
+	case 'e':
+		
+		// Toggle between 2D and 3D views
+		if (currentView == 1) currentView = 0;
+		else currentView = 1;
+		std::cout << currentView;
+		glutPostRedisplay(); // Redisplay the scene
 		break;
 	}
 }
-
-
-
-// Function to handle window resizing
-void reshape(int width, int height) {
-	if (height == 0) height = 1; // Prevent division by zero
-	glViewport(0, 0, width, height); // Set the viewport to cover the entire window
-	glMatrixMode(GL_PROJECTION); // Switch to the projection matrix
-	glLoadIdentity(); // Reset the projection matrix
-	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f); // Set the perspective
-	glMatrixMode(GL_MODELVIEW); // Switch back to the model-view matrix
-}
-
-
-
-void displayDice() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glLoadIdentity();
-	glTranslatef(3.0f, 0.0f, -30.0f); //Position the First Dice
-	glRotatef(angle, 1.0f, 1.0f, 1.0f);
-	drawCube();
-
-	glLoadIdentity();
-	glTranslatef(6.0f, 0.0f, -30.0f); //Position the Second Dice
-	glRotatef(angle, 1.0f, 1.0f, 1.0f);
-	drawCube();
-
-	glutSwapBuffers();
-}
-
 
 
 //-------------------------------------------------------------------------------------------------------------------------------
@@ -585,28 +564,113 @@ int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
 
 //-------------------------------------------------------------------------------------------------------------------------------
 
+void display3D() {
+
+	glutSetWindow(window3D);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+	// Get current window dimensions (replace with your method if needed)
+	int width = glutGet(GLUT_WINDOW_WIDTH);
+	int height = glutGet(GLUT_WINDOW_HEIGHT);
+
+	// Adjust viewport and projection if necessary
+	if (height == 0) height = 1; // Prevent division by zero
+	glViewport(0, 0, width, height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
+	glMatrixMode(GL_MODELVIEW); // Switch back to model-view
+
+	
+
+
+	glLoadIdentity();
+	glTranslatef(-2.0f, 0.0f, -10.0f); //Position the First Dice
+	glRotatef(angle, 1.0f, 1.0f, 1.0f);
+	drawCube();
+
+	glLoadIdentity();
+	glTranslatef(2.0f, 0.0f, -10.0f); //Position the Second Dice
+	glRotatef(angle, 1.0f, 1.0f, 1.0f);
+	drawCube();
+
+	
+	glutSwapBuffers();
+}
+
+
+
+void display2D() {
+
+	glutSetWindow(window2D);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(0.0, 222.0, 0.0, 220.0);
+	glMatrixMode(GL_MODELVIEW);
+
+	drawBackgammonBoard();
+	drawFrame();
+
+
+	float x_center = (35 + 185) / 2.0f; // TABLANIN MERKEZLERÝNÝ HESAPLADIM  
+	float y_center = (20 + 200) / 2.0f;
+
+	drawSplitter(x_center);
+
+	//Ucgen ciz 
+	drawTriangles(x_center);
+
+	glutSwapBuffers();
+
+}
+
+
+
+// Function to handle mouse clicks
+void mouse(int button, int state, int x, int y) {
+	std::cout << "Clicked" << currentView;
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		// Define the button area (adjust coordinates as needed)
+		if (x >= 10 && x <= 90 && y >= 10 && y <= 50) {
+			// Toggle between 2D and 3D views
+			if (currentView == 1) currentView = 0;
+			else currentView = 1;
+			glutPostRedisplay(); // Redisplay the scene
+		}
+	}
+}
+
+
+
 int main(int argc, char** argv) {
 
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowPosition(500, 500);  
+    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);  
     glutInitWindowSize(800, 600);     
-    glutCreateWindow("Tavlla");
-
 	glClearColor(1.0, 1.0, 1.0, 1.0);
-	gluOrtho2D(0.0, 222.0, 0.0, 220.0);
-	glutDisplayFunc(display);
 
+	// Create the 2D window
+	window2D = glutCreateWindow("Tavlla - 2D");
+	glutDisplayFunc(display2D);
+	glutReshapeWindow(800, 600); // Set initial size
 
+	// Create the 3D window
+	window3D = glutCreateWindow("Zar - 3D");
+	glutDisplayFunc(display3D);
+	glutReshapeWindow(300, 200); // Set initial size
+	//glutMouseFunc(mouse);
 
 
 		// Erlindi
-			//glutDisplayFunc(displayDice);
-			//glutReshapeFunc(reshape);
-			//glutKeyboardFunc(keyboard);
+			
+			
+			glutKeyboardFunc(keyboard);
 
-			//glEnable(GL_DEPTH_TEST);
-			//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		
 
 		//////////////////////////////////////////  
 
