@@ -2,6 +2,8 @@
 #include "freeglut.h"
 #include <iostream>
 
+using namespace std;
+
 //DIKKAT: YAZDIGINIZ HER SEY ICIN YORUM KULLANIN. DIGERLERIN KODLARINI IYICE YORUM YAPMADAN DOKUNMAYIN. 
 //SADECE ALANLARINDA KODLARINI YAZIN
 
@@ -12,6 +14,8 @@ void startingPosition();
 int makeMove(int, int, int);
 int checkMoveWhite(int, int, int);
 int checkMoveBlack(int, int, int);
+int getIndex(float, float);
+void mouseClick(int, int, int, int);
 
 //Global Degisken Alani
 
@@ -21,6 +25,9 @@ int colorArray[24] = { -1 };
 int numberArray[24] = { 0 };
 // Kimin halmesidir, 0 - beyaz, 1 - siyah
 int toMove = 0;
+int rolledDicedOne = 0;
+int rolledDicedTwo = 0;
+int numberOfMoves = 0;
 
 int won = -1;
 
@@ -335,7 +342,9 @@ int makeMove(int currentIndex, int rolledNumber, int targetSquare) {
 }
 
 int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
-	if (targetSquare >= currentIndex)
+	if (colorArray[currentIndex] == 1)
+		return 0;
+	else if (targetSquare >= currentIndex)
 		return 0;
 	else if (outsideWhite > 0) {
 
@@ -378,7 +387,9 @@ int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
 }
 
 int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
-	if (targetSquare <= currentIndex)
+	if (colorArray[currentIndex] == 0)
+		return 0;
+	else if (targetSquare <= currentIndex)
 		return 0;
 	else if (outsideBlack > 0) {
 
@@ -417,8 +428,86 @@ int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
 	if (numberArray[currentIndex] == 0) {
 		colorArray[currentIndex] = -1;
 	}
-
 	return 1;
+}
+
+int getIndex(float x, float y) {
+	cout << "x: " << x << ", y: " << y << endl;
+	int col = -1;
+	if (x >= 35 && x < 106) {
+		if (x < 47) {
+			col = 11;
+		}
+		else if (x < 59){
+			col = 10;
+		}
+		else if (x < 71) {
+			col = 9;
+		}
+		else if (x < 82) {
+			col = 8;
+		}
+		else if (x < 94) {
+			col = 7;
+		}
+		else {
+			col = 6;
+		}
+	}
+	else if( x >= 115 && x < 186){
+		if (x < 127) {
+			col = 5;
+		}
+		else if (x < 139) {
+			col = 4;
+		}
+		else if (x < 150) {
+			col = 3;
+		}
+		else if (x < 162) {
+			col = 2;
+		}
+		else if (x < 174) {
+			col = 1;
+		}
+		else {
+			col = 0;
+		}
+	}
+	else {
+		return col;
+	}
+	if (y <= 105 && y >= 20) {
+		return col;
+	}
+	else if (y <= 200 && y >= 115) {
+		return 23 - col;
+	}
+	else {
+		return -1;
+	}
+}
+
+void mouseClick(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		// Convert window coordinates to OpenGL coordinates
+		GLint viewport[4];
+		glGetIntegerv(GL_VIEWPORT, viewport);
+		GLdouble modelview[16];
+		glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+		GLdouble projection[16];
+		glGetDoublev(GL_PROJECTION_MATRIX, projection);
+		GLfloat winX = (float)x;
+		GLfloat winY = (float)viewport[3] - (float)y;
+		GLdouble posX, posY, posZ;
+		gluUnProject(winX, winY, 0.0, modelview, projection, viewport, &posX, &posY, &posZ);
+
+		// Print the clicked coordinates
+		cout << "Index: " << getIndex(posX, posY) << endl;
+
+		// TODO: Perform any necessary actions based on the clicked coordinates,
+		// such as identifying the clicked game piece or board location.
+	}
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
@@ -429,11 +518,13 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(500, 500);  
     glutInitWindowSize(800, 600);     
-    glutCreateWindow("Tavlla");
+    glutCreateWindow("Tavla");
 
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	gluOrtho2D(0.0, 222.0, 0.0, 220.0);
 	glutDisplayFunc(display);
+
+	glutMouseFunc(mouseClick);
 
     glutMainLoop();
 
