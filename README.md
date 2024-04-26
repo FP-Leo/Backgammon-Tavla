@@ -9,3 +9,6 @@ Oyun sırası, sağda bulunan bir kutu ile gösterilir. Sıra beyaz oyuncuda ise
 Kullanıcıların kaç hamle yapabileceği, oyun sırasını gösteren kutunun hemen üzerindeki kırmızı kullanım haklarıyla takip edilir.
 Zar atıldıktan sonra oynatmak istediğiniz taşa tıkladığınızda oynama hakkı aktif hale gelir. Hamle yapıldıkça kullanım hakları azalır ve 0 olduğunda sıra karşı oyuncuya geçer.
 Sıra değiştikten sonra yeni bir hamle yapabilmek için önce zar atılması gerekir.
+
+Aşağıdaki videoyu izleyerek oyunun işleyişi hakkında bilgi sahibi olabilirsiniz.
+https://youtu.be/J3Kzxi3Me-8
