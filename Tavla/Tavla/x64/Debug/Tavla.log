@@ -21,11 +21,13 @@ C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(400,7): warning C42
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(401,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(408,18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(408,14): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(946,39): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(946,33): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(966,37): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(966,31): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1096,18): error C3861: 'checkDeadLockWhite': identifier not found
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1097,18): error C3861: 'checkDeadLockBlack': identifier not found
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1173,37): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1173,24): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(950,39): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(950,33): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(973,37): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(973,31): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1185,37): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1185,24): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1111,1): warning C4715: 'checkDeadlock': not all control paths return a value
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1149,1): warning C4715: 'checkDeadLockWhite': not all control paths return a value
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1176,1): warning C4715: 'checkDeadLockBlack': not all control paths return a value
+  Tavla.vcxproj -> C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\x64\Debug\Tavla.exe

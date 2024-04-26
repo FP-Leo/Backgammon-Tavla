@@ -783,6 +783,8 @@ int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
 
 		if (targetSquare <= 5)
 			baseWhite++;
+		if (baseWhite + numberArray[24] == 13)
+			whiteReadyToCollect = true;
 	}else if (targetSquare == 24) {
 		if (!whiteReadyToCollect)
 			return 0;
@@ -842,6 +844,8 @@ int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
 
 		if (targetSquare >= 18)
 			baseBlack++;
+		if (baseBlack + numberArray[27] == 13)
+			blackReadyToCollect = true;
 	}
 	else if (targetSquare == 27) {
 		if (!blackReadyToCollect)
@@ -958,7 +962,10 @@ void mouseClick(int button, int state, int x, int y) {
 				diceToUse.clear();
 				toMove = !toMove;
 				rolled = false;
+				glutPostRedisplay();
+				return;
 			}
+			cout << "No Deadlock Found!" << endl;
 			glutPostRedisplay(); // Redraw the scene
 			return;
 		}
@@ -978,6 +985,11 @@ void mouseClick(int button, int state, int x, int y) {
 			}
 		}
 		else {
+			cout << "Base, Collected and ready to collect: ";
+			switch (toMove) {
+				case 0: cout << "(WHITE)" << baseWhite << " " << numberArray[24] << " " << whiteReadyToCollect << endl; break;
+				case 1: cout << "(BLACK)" << baseBlack << " " << numberArray[27] << " " << blackReadyToCollect << endl; break;
+			}
 			makeMove(clickedIndex);
 			firstIndex = -1;
 			cout << "Index Reset!!" << endl;
