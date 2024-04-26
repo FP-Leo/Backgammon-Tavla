@@ -1,4 +1,5 @@
 # Tavla-NDAT-Proje
+
 Bu projede, C++ ve OpenGL kullanarak basit bir tavla oyununu yapılmıştır. Oyunun temel özellikleri şunlardır:
 
 Sağ tarafta yer alan zar düğmesine basıldığında zarlar atılır.
@@ -12,13 +13,12 @@ Sıra değiştikten sonra yeni bir hamle yapabilmek için önce zar atılması g
 ![Tavla 26 04 2024 15_50_48](https://github.com/Bahayll/Tavla-NDAT-Proje/assets/120746431/d11ec60a-e9a3-4333-981a-97ebe310c488)
 ![Zar - 3D 26 04 2024 15_50_18](https://github.com/Bahayll/Tavla-NDAT-Proje/assets/120746431/16b37885-ef4e-4855-a939-29593b5e3cdc)
 
-
 Videoyu izleyerek oyunun işleyişi hakkında bilgi sahibi olabilirsiniz.
 https://youtu.be/J3Kzxi3Me-8
 
 Contributors :
 
-1) Leonit SHABANİ - 200401110
-2) Muhammet Eren NOKTA - 200401012
-3) Erlindi ISAJ - 200401114
-4) Baha YOLAL - 200401031
+1. Leonit SHABANİ - 200401110
+2. Muhammet Eren NOKTA - 200401012
+3. Erlindi ISAJ - 200401114
+4. Baha YOLAL - 200401031
