@@ -1,5 +1,5 @@
 # Tavla-NDAT-Proje
-Bu projede,C++ ve OpenGL kullanarak basit bir tavla oyununu yapılmıştır. Oyunun temel özellikleri şunlardır:
+Bu projede, C++ ve OpenGL kullanarak basit bir tavla oyununu yapılmıştır. Oyunun temel özellikleri şunlardır:
 
 Sağ tarafta yer alan zar düğmesine basıldığında zarlar atılır.
 Zar atmak için "R" tuşuna basılır ve zarlar atıldıktan sonra açılan sayfa "D" tuşuyla kapatılıp oyuna devam edilebilir.
