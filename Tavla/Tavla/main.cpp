@@ -22,6 +22,15 @@ int checkDeadlock();
 int checkDeadLockWhite();
 int checkDeadLockBlack();
 
+//Eren
+void leftPocket(void);
+void rightPocket(void);
+void drawFrame(void);
+void drawBackgammonBoard(void);
+void drawSplitter(float x_center);
+void drawTriangles(float x_center);
+void display(void);
+
 //Baha
 void drawStones();
 void drawStoneIndex(int);
@@ -32,7 +41,6 @@ void handleDiceClick(int, int, int, int);
 void drawMoveIndicators();
 
 //Erlindi 
-
 int randomNumber();
 void drawCube();
 void getDiceValues();
@@ -41,6 +49,7 @@ void rollDice2(int);
 void rotateBasedOnValue_1();
 void rotateBasedOnValue_2();
 void display3D();
+void dummyMouseFunc(int, int, int, int);
 void dummyKeyboardFunc(unsigned char, int, int);
 void keyboard(unsigned char, int, int);
 
@@ -48,6 +57,7 @@ void keyboard(unsigned char, int, int);
 
 //Leo
 // 0 degeri - Beyaz, 1 ise siyah temsil eder. Beyaz tarafi 0dan 5'e kadar olan alanda toplicaktir. Siyah ise 18dan 23'e kadar olan alanda.
+bool started = false;
 int colorArray[28]; // 25 collectWhite, 26 outsideWhite, 27 outsideBlack, 28 collectBlack
 int numberArray[28] = { 0 };
 // Kimin halmesidir, 0 - beyaz, 1 - siyah
@@ -351,9 +361,23 @@ void display(void) {
 	//Ucgen ciz 
 	drawTriangles(x_center);
 
-	if (won != -1) {
+	if (started == false) {
 		startingPosition();
+		started = true;
 	}
+	if (won != -1) {
+		switch (won) {
+			case 0: cout << "WHITE WON!" << endl; break;
+			case 1: cout << "BLACK WON!" << endl; break;
+		}
+		glutMouseFunc(dummyMouseFunc);
+		glutKeyboardFunc(dummyKeyboardFunc);
+		drawStones();
+		drawDiceAndTurnIndicator();
+		drawDeadlockButton();
+		return;
+	}
+
 	drawStones();
 	drawDiceAndTurnIndicator();
 	if (rolled == false) {
@@ -372,7 +396,6 @@ void display(void) {
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //BAHA YOLAL - gover: Tas Tasrimi
-
 
 void drawCircle(float x, float y, float radius) {
 	glBegin(GL_POLYGON);
@@ -661,6 +684,8 @@ void display3D() {
 	glutSwapBuffers();
 }
 
+void dummyMouseFunc(int button, int state, int x, int y) {}
+
 void dummyKeyboardFunc(unsigned char key, int x, int y) {}
 
 void keyboard(unsigned char Key, int x, int y) {
@@ -703,7 +728,7 @@ void startingPosition() {
 
 	// Extra
 	colorArray[24] = 0; colorArray[25] = 0; colorArray[26] = 1; colorArray[27] = 1;
-	numberArray[24] = 0; numberArray[24] = 0; numberArray[25] = 0; numberArray[26] = 0;
+	numberArray[24] = 0; numberArray[25] = 0; numberArray[26] = 0; numberArray[27] = 0;
 }
 
 void makeMove(int clickedIndex) {
@@ -719,7 +744,7 @@ void makeMove(int clickedIndex) {
 					toMove = !toMove;
 					rolled = false;
 				}
-				if (numberArray[24] == 13) won = 0;
+				if (numberArray[24] == 15) won = 0;
 				break;
 			}
 		}
@@ -734,7 +759,7 @@ void makeMove(int clickedIndex) {
 					toMove = !toMove;
 					rolled = false;
 				}
-				if (numberArray[27] == 13) won = 1;
+				if (numberArray[27] == 15) won = 1;
 				break;
 			}
 		}
@@ -781,14 +806,14 @@ int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
 		numberArray[targetSquare]++;
 		colorArray[targetSquare] = 0;
 
-		if (targetSquare <= 5)
+		if (targetSquare <= 5 && currentIndex > 5)
 			baseWhite++;
-		if (baseWhite + numberArray[24] == 13)
+		if (baseWhite + numberArray[24] == 15)
 			whiteReadyToCollect = true;
 	}else if (targetSquare == 24) {
 		if (!whiteReadyToCollect)
 			return 0;
-		if (currentIndex + 1 - rolledNumber <= 0) {
+		if (currentIndex - rolledNumber < 0) {
 			numberArray[24]++;
 			baseWhite--;
 		}
@@ -810,7 +835,7 @@ int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
 	else if (numberArray[26] > 0) {
 		if (currentIndex != 26)
 			return 0;
-		if (rolledNumber != targetSquare)
+		if (rolledNumber - 1 != targetSquare)
 			return 0;
 		if (colorArray[targetSquare] == 0) {
 			if (numberArray[targetSquare] > 1) {
@@ -842,15 +867,15 @@ int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
 		numberArray[targetSquare]++;
 		colorArray[targetSquare] = 1;
 
-		if (targetSquare >= 18)
+		if (targetSquare >= 18 && currentIndex < 18)
 			baseBlack++;
-		if (baseBlack + numberArray[27] == 13)
+		if (baseBlack + numberArray[27] == 15)
 			blackReadyToCollect = true;
 	}
 	else if (targetSquare == 27) {
 		if (!blackReadyToCollect)
 			return 0;
-		if (currentIndex + rolledNumber >= 23) {
+		if (currentIndex + rolledNumber > 23) {
 			numberArray[27]++;
 			baseBlack--;
 		}
@@ -867,7 +892,6 @@ int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
 }
 
 int getIndex(float x, float y) {
-	cout << "x: " << x << ", y: " << y << endl;
 	int col = -1;
 	if (x >= 35 && x < 106) {
 		if (x < 47) {
@@ -985,10 +1009,10 @@ void mouseClick(int button, int state, int x, int y) {
 			}
 		}
 		else {
-			cout << "Base, Collected and ready to collect: ";
+			cout << "Base, Collected ,ready to collect - ";
 			switch (toMove) {
-				case 0: cout << "(WHITE)" << baseWhite << " " << numberArray[24] << " " << whiteReadyToCollect << endl; break;
-				case 1: cout << "(BLACK)" << baseBlack << " " << numberArray[27] << " " << blackReadyToCollect << endl; break;
+				case 0: cout << "(WHITE)" << baseWhite << ", " << numberArray[24] << ", " << boolalpha << whiteReadyToCollect << endl; break;
+				case 1: cout << "(BLACK)" << baseBlack << ", " << numberArray[27] << ", " << boolalpha << blackReadyToCollect << endl; break;
 			}
 			makeMove(clickedIndex);
 			firstIndex = -1;
@@ -1120,7 +1144,7 @@ int checkSquareAvailability(int targetIndex, int color) {
 	}
 	return 1;
 }
-// 25 collectWhite, 26 outsideWhite, 27 outsideBlack, 28 collectBlack
+
 int checkDeadLockWhite() {
 	int available = 0;
 	if (numberArray[26] > 0) {

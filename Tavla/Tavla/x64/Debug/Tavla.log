@@ -1,33 +1,33 @@
 ﻿  main.cpp
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(222,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(223,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(243,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(244,34): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(245,34): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(301,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(302,31): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(303,31): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(318,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(319,35): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(320,35): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(332,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(333,32): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(334,32): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(394,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(395,7): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(396,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(399,31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(400,7): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(401,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(408,18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(408,14): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(950,39): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(950,33): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(973,37): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(973,31): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1185,37): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1185,24): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1111,1): warning C4715: 'checkDeadlock': not all control paths return a value
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1149,1): warning C4715: 'checkDeadLockWhite': not all control paths return a value
-C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1176,1): warning C4715: 'checkDeadLockBlack': not all control paths return a value
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(232,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(233,30): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(253,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(254,34): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(255,34): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(311,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(312,31): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(313,31): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(328,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(329,35): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(330,35): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(342,14): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(343,32): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(344,32): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(417,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(418,7): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(419,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(422,31): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(423,7): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(424,14): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(431,18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(431,14): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(974,39): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(974,33): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(997,37): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(997,31): warning C4244: 'argument': conversion from 'GLdouble' to 'float', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1209,37): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1209,24): warning C4244: 'argument': conversion from 'const float' to 'int', possible loss of data
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1135,1): warning C4715: 'checkDeadlock': not all control paths return a value
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1200,1): warning C4715: 'checkDeadLockBlack': not all control paths return a value
+C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1173,1): warning C4715: 'checkDeadLockWhite': not all control paths return a value
   Tavla.vcxproj -> C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\x64\Debug\Tavla.exe
