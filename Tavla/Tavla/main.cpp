@@ -1,6 +1,7 @@
 ﻿#include "glew.h"
 #include "freeglut.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -11,11 +12,13 @@ using namespace std;
 
 //Leo
 void startingPosition();
-int makeMove(int, int, int);
+void makeMove(int);
 int checkMoveWhite(int, int, int);
 int checkMoveBlack(int, int, int);
 int getIndex(float, float);
 void mouseClick(int, int, int, int);
+void drawDeadlockButton();
+int checkDeadlock();
 
 //Baha
 void drawStones();
@@ -32,30 +35,25 @@ void drawMoveIndicators();
 
 //Leo
 // 0 degeri - Beyaz, 1 ise siyah temsil eder. Beyaz tarafi 0dan 5'e kadar olan alanda toplicaktir. Siyah ise 18dan 23'e kadar olan alanda.
-int colorArray[24] = { -1 };
-int numberArray[24] = { 0 };
+int colorArray[28]; // 25 collectWhite, 26 outsideWhite, 27 outsideBlack, 28 collectBlack
+int numberArray[28] = { 0 };
 // Kimin halmesidir, 0 - beyaz, 1 - siyah
 int toMove = 0;
+// Zar atandı mı 
 bool rolled = false;
-int rolledDicedOne = 0;
-int rolledDicedTwo = 0;
-int numberOfMoves = 0;
+// Zarlar ne dir
+vector<int> diceToUse = {};
 
 int won = -1;
 
-int outsideWhite = 0;
 int whiteReadyToCollect = false;
 int baseWhite = 0;
-int collectedWhite = 0;
 
-int outsideBlack = 0;
 int blackReadyToCollect = false;
 int baseBlack = 0;
-int collectedBlack = 0;
 
 int clicked = 0;
 int firstIndex = -1;
-int secondIndex = -1;
 
 //Baha
 const int NUM_VERTICES = 360; // Dairenin çözünürlügü
@@ -64,9 +62,12 @@ const float BOARD_HEIGHT = 600.0f; // Tahta yüksekligi
 const float STONE_RADIUS = 6.0f; // Tahta yüksekligi
 
 
-float stonePositionsX[12] = { 179, 167, 155, 143, 131, 119, 99, 87, 75, 63, 51, 39 }; // Taşların X konumları, diger 12 konumlari soldan saga
-float stonePositionsYOne = 27; // Taşların Y konumları alt taraf
-float stonePositionsYTwo = 194;
+float stonePositionsX[12] = { 179, 168.5, 156.5, 144.5, 132.5, 120.5, 100.5, 87.5, 76.5, 64.5, 52.5, 41 }; // Taşların X konumları
+float collectedX = 195; // 
+float outsideX = 25;
+float stonePositionsYOne = 26.5; // Taşların Y konumları alt taraf
+float stonePositionsYTwo = 193.5;// Taşların Y konumları ust taraf
+
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //EREN NOKTA - gover: Tahta Tasarimi
@@ -327,6 +328,9 @@ void display(void) {
 	//Ucgen ciz 
 	drawTriangles(x_center);
 
+	if (won != -1) {
+		startingPosition();
+	}
 	drawStones();
 	drawDiceAndTurnIndicator();
 	if (rolled == false) {
@@ -337,6 +341,7 @@ void display(void) {
 		glutMouseFunc(mouseClick);       // Register mouseClick when rolled
 	}
 	
+	drawDeadlockButton();
 
 
 	glutSwapBuffers(); // Swap buffers for double buffering
@@ -367,7 +372,7 @@ void drawStoneIndex(int index){
 		y = stonePositionsYOne;
 		toAdd = 2 * STONE_RADIUS;
 	}
-	else if (index < 24 && index > 11) {
+	else if ((index < 24 && index > 11)) {
 		x = stonePositionsX[23-index];
 		y = stonePositionsYTwo;
 		toAdd = -2 * STONE_RADIUS;
@@ -390,6 +395,20 @@ void drawStones() {
 			default: break;
 		}
 	}
+	glColor3f(1.0, 1.0, 1.0);
+	for (int i = 0; i < numberArray[24]; i++) {
+		drawCircle(collectedX, stonePositionsYOne + 2 * i * STONE_RADIUS, STONE_RADIUS);
+	}
+	for (int i = 0; i < numberArray[25]; i++) {
+		drawCircle(outsideX, stonePositionsYOne + 2 * i * STONE_RADIUS, STONE_RADIUS);
+	}
+	glColor3f(0.0, 0.0, 0.0);
+	for (int i = 0; i < numberArray[27]; i++) {
+		drawCircle(collectedX, stonePositionsYTwo - 2 * i * STONE_RADIUS, STONE_RADIUS);
+	}
+	for (int i = 0; i < numberArray[26]; i++) {
+		drawCircle(outsideX, stonePositionsYTwo - 2 * i * STONE_RADIUS, STONE_RADIUS);
+	}
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
@@ -400,6 +419,9 @@ void drawStones() {
 
 //Set up starting position
 void startingPosition() {
+	for (int i = 0; i < 28; i++) {
+		colorArray[i] = -1;
+	}
     //Beyaz
     colorArray[23] = 0; colorArray[12] = 0; colorArray[7] = 0; colorArray[5] = 0;
     numberArray[23] = 2; numberArray[12] = 5; numberArray[7] = 3; numberArray[5] = 5;
@@ -409,58 +431,97 @@ void startingPosition() {
     colorArray[0] = 1; colorArray[11] = 1; colorArray[16] = 1; colorArray[18] = 1;
     numberArray[0] = 2; numberArray[11] = 5; numberArray[16] = 3; numberArray[18] = 5;
 	baseBlack = 5;
+
+	// Extra
+	colorArray[24] = 0; colorArray[25] = 0; colorArray[26] = 1; colorArray[27] = 1;
+	numberArray[24] = 0; numberArray[24] = 0; numberArray[25] = 0; numberArray[26] = 0;
 }
 
-int makeMove(int currentIndex, int rolledNumber, int targetSquare) {
+void makeMove(int clickedIndex) {
 	int result = 0;
 	switch (toMove) {
-		case 0: result = checkMoveWhite(currentIndex, rolledNumber, targetSquare); break;
-		case 1: result = checkMoveBlack(currentIndex, rolledNumber, targetSquare); break;
-	}
-	if (result == 1) {
-		switch (toMove) {
-			case 0: if (collectedWhite == 13) won = 0; break;
-			case 1: if (collectedBlack == 13) won = 1; break;
+	case 0:
+		for (int i = 0; i < diceToUse.size(); i++) {
+			result = checkMoveWhite(firstIndex, diceToUse[i], clickedIndex);
+			if (result == 1) {
+				diceToUse.erase(diceToUse.begin() + i);
+				glutPostRedisplay();
+				if (diceToUse.empty()) {
+					toMove = !toMove;
+					rolled = false;
+				}
+				if (numberArray[24] == 13) won = 0;
+				break;
+			}
 		}
+		break;
+	case 1:
+		for (int i = 0; i < diceToUse.size(); i++) {
+			result = checkMoveBlack(firstIndex, diceToUse[i], clickedIndex);
+			if (result == 1) {
+				diceToUse.erase(diceToUse.begin() + i);
+				glutPostRedisplay();
+				if (diceToUse.empty()) {
+					toMove = !toMove;
+					rolled = false;
+				}
+				if (numberArray[27] == 13) won = 1;
+				break;
+			}
+		}
+		break;
 	}
-	return result;
 }
 
 int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
-	if (colorArray[currentIndex] == 1)
+	if (targetSquare >= currentIndex)
 		return 0;
-	else if (targetSquare >= currentIndex)
-		return 0;
-	else if (outsideWhite > 0) {
-
-	}
-	else if (colorArray[targetSquare] != 0) {
-		if (numberArray[targetSquare] > 1) {
+	else if (numberArray[25] > 0) {
+		if (currentIndex != 25)
 			return 0;
-		}
-		colorArray[targetSquare] = 0;
-		outsideBlack++;
-		blackReadyToCollect = false;
-		if (targetSquare >= 18 && targetSquare <= 23) {
+		if (rolledNumber != 24 - targetSquare)
+			return 0;
+		if (colorArray[targetSquare] == 1) {
+			if (numberArray[targetSquare] > 1) {
+				return 0;
+			}
+			numberArray[targetSquare]--;
+			numberArray[26]++;
+			blackReadyToCollect = false;
 			baseBlack--;
 		}
+		numberArray[25]--;
+		colorArray[targetSquare] = 0;
+		numberArray[targetSquare]++;
+		return 1;
 	}
-	else if (targetSquare < 0) {
+	else if (targetSquare >= 0 && targetSquare <= 23 && currentIndex - rolledNumber == targetSquare) {
+		if (colorArray[targetSquare] == 1) {
+			if (numberArray[targetSquare] > 1) {
+				return 0;
+			}
+			colorArray[targetSquare] = 0;
+			numberArray[26]++;
+			blackReadyToCollect = false;
+			if (targetSquare >= 18 && targetSquare <= 23) {
+				baseBlack--;
+			}
+		}
+
+		numberArray[targetSquare]++;
+		colorArray[targetSquare] = 0;
+
+		if (targetSquare <= 5)
+			baseWhite++;
+	}else if (targetSquare == 24) {
 		if (!whiteReadyToCollect)
 			return 0;
 		if (currentIndex - rolledNumber <= 0) {
-			collectedWhite++;
+			numberArray[24]++;
 			baseWhite--;
 		}
-	}
-	else if (targetSquare > 23) {
+	}else {
 		return 0;
-	}
-	else if (currentIndex - rolledNumber == targetSquare) {
-		numberArray[targetSquare]++;
-		colorArray[targetSquare] = 0;
-		if (targetSquare <= 5 && targetSquare >= 0)
-			baseWhite++;
 	}
 
 	numberArray[currentIndex]--;
@@ -472,41 +533,56 @@ int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
 }
 
 int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
-	if (colorArray[currentIndex] == 0)
+	if (targetSquare <= currentIndex)
 		return 0;
-	else if (targetSquare <= currentIndex)
-		return 0;
-	else if (outsideBlack > 0) {
-
-	}
-	else if (colorArray[targetSquare] != 1) {
-		if (numberArray[targetSquare] > 1) {
+	else if (numberArray[26] > 0) {
+		if (currentIndex != 26)
 			return 0;
-		}
-		colorArray[targetSquare] = 1;
-		outsideWhite++;
-		whiteReadyToCollect = false;
-		if (targetSquare >= 0 && targetSquare <= 5) {
+		if (rolledNumber != targetSquare)
+			return 0;
+		if (colorArray[targetSquare] == 0) {
+			if (numberArray[targetSquare] > 1) {
+				return 0;
+			}
+			numberArray[targetSquare]--;
+			numberArray[25]++;
+			whiteReadyToCollect = false;
 			baseWhite--;
 		}
+		numberArray[26]--;
+		colorArray[targetSquare] = 1;
+		numberArray[targetSquare]++;
+		return 1;
 	}
-	else if (targetSquare > 23) {
+	else if (targetSquare >= 0 && targetSquare <= 23 && currentIndex + rolledNumber == targetSquare) {
+		if (colorArray[targetSquare] == 0) {
+			if (numberArray[targetSquare] > 1) {
+				return 0;
+			}
+			numberArray[25]++;
+			numberArray[targetSquare]--;
+			whiteReadyToCollect = false;
+			if (targetSquare >= 0 && targetSquare <= 5) {
+				baseWhite--;
+			}
+		}
+
+		numberArray[targetSquare]++;
+		colorArray[targetSquare] = 1;
+
+		if (targetSquare >= 18)
+			baseBlack++;
+	}
+	else if (targetSquare == 27) {
 		if (!blackReadyToCollect)
 			return 0;
 		if (currentIndex + rolledNumber >= 23) {
-			collectedBlack++;
+			numberArray[27]++;
 			baseBlack--;
 		}
 	}
-	else if (targetSquare < 0) {
+	else {
 		return 0;
-	}
-	else if (currentIndex + rolledNumber == targetSquare) {
-		numberArray[targetSquare]++;
-		colorArray[targetSquare] = 1;
-		if (targetSquare >= 18 && targetSquare <= 23) {
-			baseBlack++;
-		}
 	}
 
 	numberArray[currentIndex]--;
@@ -560,12 +636,21 @@ int getIndex(float x, float y) {
 		}
 	}
 	else {
-		return col;
+		if (x >= 190 && x <= 200)
+			col = 13;
+		else if (x >= 19 && x <= 29)
+			col = 14;
+		else
+			return -1;
 	}
 	if (y <= 105 && y >= 20) {
+		if (col == 13 || col == 14)
+			return col + 11;
 		return col;
 	}
 	else if (y <= 200 && y >= 115) {
+		if (col == 13 || col == 14)
+			return col + 13;
 		return 23 - col;
 	}
 	else {
@@ -590,20 +675,47 @@ void mouseClick(int button, int state, int x, int y) {
 		// Print the clicked coordinates
 		cout << "Index: " << getIndex(posX, posY) << endl;
 
-		// TODO: Perform any necessary actions based on the clicked coordinates,
-		// such as identifying the clicked game piece or board location.
+		if (posX >= 100 && posX <= 120 && posY >= 210 && posY <= 220) {
+			firstIndex = -1; // Reset firstIndex
+			checkDeadlock();  // Call the deadlock check function
+			glutPostRedisplay(); // Redraw the scene
+			cout << "Checking Deadlock" << endl;
+			return;
+		}
 
+		int clickedIndex = getIndex(posX, posY);
+		if (clickedIndex == -1) {
+			cout << "Error! Index Reset!!" << endl;
+			return;
+		}
+		if (firstIndex == -1 ) {
+			if (colorArray[clickedIndex] == toMove) {
+				firstIndex = clickedIndex;
+			}
+			else {
+				cout << "Error! Index Reset!!" << endl;
+				return;
+			}
+		}
+		else {
+			makeMove(clickedIndex);
+			firstIndex = -1;
+			cout << "Index Reset!!" << endl;
+		}
 	}
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------
 
-
-
 void rollDice() {
-	rolledDicedOne = rand() % 6 + 1;  // Generate random numbers between 1 and 6
-	rolledDicedTwo = rand() % 6 + 1;
-	numberOfMoves = (rolledDicedOne == rolledDicedTwo) ? 4 : 2; // 4 moves if same, else 2
+	int rolledDicedOne = rand() % 6 + 1;  // Generate random numbers between 1 and 6
+	int rolledDicedTwo = rand() % 6 + 1;
+	diceToUse.push_back(rolledDicedOne);
+	diceToUse.push_back(rolledDicedTwo);
+	if (rolledDicedOne == rolledDicedTwo) {
+		diceToUse.push_back(rolledDicedOne);
+		diceToUse.push_back(rolledDicedTwo);
+	}
 	cout << "Rolled: " << rolledDicedOne << " and " << rolledDicedTwo << endl;
 }
 
@@ -662,7 +774,7 @@ void drawDiceAndTurnIndicator() {
 void drawMoveIndicators() {
 	// Move indicator rectangles (red) - Below the die square, vertical with spacing
 	glColor3f(1.0f, 0.0f, 0.0f); // Red color
-	for (int i = 0; i < numberOfMoves; i++) {
+	for (int i = 0; i < diceToUse.size(); i++) {
 		glBegin(GL_QUADS);
 		glVertex2i(210 + i * 3, 130); // Added spacing between rectangles
 		glVertex2i(212 + i * 3, 130);
@@ -695,6 +807,22 @@ void handleDiceClick(int button, int state, int x, int y) {
 		}
 	}
 }
+
+void drawDeadlockButton() {
+	// Draw a red square above the triangles
+	glColor3f(1.0f, 0.0f, 0.0f); // Red color
+	glBegin(GL_QUADS);
+	glVertex2i(100, 210);  // Adjust position as needed
+	glVertex2i(100, 220);
+	glVertex2i(120, 220);
+	glVertex2i(120, 210);
+	glEnd();
+}
+
+int checkDeadlock() {
+	return 1;
+}
+
 //-------------------------------------------------------------------------------------------------------------------------------
 
 int main(int argc, char** argv) {
