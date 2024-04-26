@@ -19,8 +19,8 @@ int getIndex(float, float);
 void mouseClick(int, int, int, int);
 void drawDeadlockButton();
 int checkDeadlock();
-int checkDeadlockWhite();
-int checkDeadlockBlack();
+int checkDeadLockWhite();
+int checkDeadLockBlack();
 
 //Baha
 void drawStones();
