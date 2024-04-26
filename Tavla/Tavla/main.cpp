@@ -786,7 +786,7 @@ int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
 	}else if (targetSquare == 24) {
 		if (!whiteReadyToCollect)
 			return 0;
-		if (currentIndex - rolledNumber <= 0) {
+		if (currentIndex + 1 - rolledNumber <= 0) {
 			numberArray[24]++;
 			baseWhite--;
 		}
@@ -951,10 +951,15 @@ void mouseClick(int button, int state, int x, int y) {
 		}
 
 		if (posX >= 100 && posX <= 120 && posY >= 210 && posY <= 220) {
-			firstIndex = -1; // Reset firstIndex
-			checkDeadlock();  // Call the deadlock check function
-			glutPostRedisplay(); // Redraw the scene
 			cout << "Checking Deadlock" << endl;
+			firstIndex = -1; // Reset firstIndex
+			if (checkDeadlock() == 0) { // Call the deadlock check function
+				cout << "Deadlock Found! Skipping turn!" << endl;
+				diceToUse.clear();
+				toMove = !toMove;
+				rolled = false;
+			}
+			glutPostRedisplay(); // Redraw the scene
 			return;
 		}
 
@@ -1097,18 +1102,65 @@ int checkSquareAvailability(int targetIndex, int color) {
 	if (targetIndex < 0 && targetIndex > 23)
 		return 0;
 	if (color != 0 && color != 1)
-		return;
+		return 0;
 	if (colorArray[targetIndex] == !color && numberArray[targetIndex] > 1) {
-		return;
+		return 0;
+	}
+	return 1;
+}
+// 25 collectWhite, 26 outsideWhite, 27 outsideBlack, 28 collectBlack
+int checkDeadLockWhite() {
+	int available = 0;
+	if (numberArray[26] > 0) {
+		for (int i = 0; i < diceToUse.size(); i++) {
+			available = checkSquareAvailability(24-diceToUse[i], 0);
+		}
+		return available;
+	}
+	if (whiteReadyToCollect) {
+		for (int i = 0; i < diceToUse.size(); i++) {
+			if (colorArray[i-1] == 0)
+				return 1;
+		}
+	}
+	for (int i = 0; i < 24; i++) {
+		if (colorArray[i] == 0) {
+			for (int j = 0; j < diceToUse.size(); j++) {
+				if (checkSquareAvailability(i - j, 0)){
+					available = 1;
+					break;
+				}
+			}
+			if (available) return available;
+		}
 	}
 }
 
-int checkDeadLockWhite() {
-	
-}
-
 int checkDeadLockBlack() {
-
+	int available = 0;
+	if (numberArray[27] > 0) {
+		for (int i = 0; i < diceToUse.size(); i++) {
+			available = checkSquareAvailability(diceToUse[i-1], 1);
+		}
+		return available;
+	}
+	if (whiteReadyToCollect) {
+		for (int i = 0; i < diceToUse.size(); i++) {
+			if (colorArray[24 - i] == 1)
+				return 1;
+		}
+	}
+	for (int i = 0; i < 24; i++) {
+		if (colorArray[i] == 0) {
+			for (int j = 0; j < diceToUse.size(); j++) {
+				if (checkSquareAvailability(i + j, 1)) {
+					available = 1;
+					break;
+				}
+			}
+			if (available) return available;
+		}
+	}
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
