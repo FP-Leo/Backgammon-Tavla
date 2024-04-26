@@ -8,7 +8,7 @@ using namespace std;
 //DIKKAT: YAZDIGINIZ HER SEY ICIN YORUM KULLANIN. DIGERLERIN KODLARINI IYICE YORUM YAPMADAN DOKUNMAYIN. 
 //SADECE ALANLARINDA KODLARINI YAZIN
 
-//Prototip Alani
+////Prototip Alani
 
 //Leo
 void startingPosition();
@@ -19,19 +19,32 @@ int getIndex(float, float);
 void mouseClick(int, int, int, int);
 void drawDeadlockButton();
 int checkDeadlock();
+int checkDeadlockWhite();
+int checkDeadlockBlack();
 
 //Baha
 void drawStones();
 void drawStoneIndex(int);
 void drawCircle(float, float, float);
 
-
-void rollDice();
 void drawDiceAndTurnIndicator();
 void handleDiceClick(int, int, int, int);
 void drawMoveIndicators();
 
-//Global Degisken Alani
+//Erlindi 
+
+int randomNumber();
+void drawCube();
+void getDiceValues();
+void rollDice1(int);
+void rollDice2(int);
+void rotateBasedOnValue_1();
+void rotateBasedOnValue_2();
+void display3D();
+void dummyKeyboardFunc(unsigned char, int, int);
+void keyboard(unsigned char, int, int);
+
+////Global Degisken Alani
 
 //Leo
 // 0 degeri - Beyaz, 1 ise siyah temsil eder. Beyaz tarafi 0dan 5'e kadar olan alanda toplicaktir. Siyah ise 18dan 23'e kadar olan alanda.
@@ -68,6 +81,16 @@ float outsideX = 25;
 float stonePositionsYOne = 26.5; // Taşların Y konumları alt taraf
 float stonePositionsYTwo = 193.5;// Taşların Y konumları ust taraf
 
+//Erlindi 
+
+int dice1; // Random number for the first Dice
+int dice2; // Random number for the second Dice
+int currentView = 0;
+int window3D = -1;
+GLfloat angle1 = 0.0f;
+GLfloat angle2 = 0.0f;
+GLboolean rotateFlag1 = GL_FALSE;
+GLboolean rotateFlag2 = GL_FALSE;
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //EREN NOKTA - gover: Tahta Tasarimi
@@ -413,6 +436,252 @@ void drawStones() {
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //ERLINDI ISAJ - gorev: Zar Tasarimi 
+int randomNumber() {
+	return rand() % 6 + 1;
+}
+
+void drawCube() {
+	glBegin(GL_QUADS);
+
+	// Front face
+	glColor3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+	glVertex3f(1.0f, -1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+
+	// Back face
+	glColor3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, -1.0f, -1.0f);
+
+	// Right face
+	glColor3f(0.25f, 0.25f, 0.25f);
+	glVertex3f(1.0f, -1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, -1.0f, 1.0f);
+
+	// Left face
+	glColor3f(0.65f, 0.65f, 0.65f);
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+
+	// Top face
+	glColor3f(0.65f, 0.65f, 0.65f);
+	glVertex3f(-1.0f, 1.0f, -1.0f);
+	glVertex3f(-1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+
+	// Bottom face
+	glColor3f(0.25f, 0.25f, 0.25f);
+	glVertex3f(-1.0f, -1.0f, -1.0f);
+	glVertex3f(1.0f, -1.0f, -1.0f);
+	glVertex3f(1.0f, -1.0f, 1.0f);
+	glVertex3f(-1.0f, -1.0f, 1.0f);
+
+	glEnd();
+
+	// Draw black dots for dice pips
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glPointSize(10.0f);
+	glBegin(GL_POINTS);
+
+	// Front face (one dot)
+	glVertex3f(0.0f, 0.0f, 1.01f);
+
+	// Back face (six dots) - arrange in a 2x3 grid
+	glVertex3f(-0.5f, -0.5f, -1.01f);
+	glVertex3f(0.5f, -0.5f, -1.01f);
+	glVertex3f(-0.5f, 0.5f, -1.01f);
+	glVertex3f(0.5f, 0.5f, -1.01f);
+	glVertex3f(-0.5f, 0.0f, -1.01f);
+	glVertex3f(0.5f, 0.0f, -1.01f);
+
+	// Right face (four dots) - arrange in a 2x2 grid 
+	glVertex3f(1.01f, -0.5f, -0.5f);
+	glVertex3f(1.01f, 0.5f, -0.5f);
+	glVertex3f(1.01f, -0.5f, 0.5f);
+	glVertex3f(1.01f, 0.5f, 0.5f);
+
+	// Left face (three dots) - arrange in a triangle
+	glVertex3f(-1.01f, -0.5f, 0.0f);
+	glVertex3f(-1.01f, 0.5f, -0.5f);
+	glVertex3f(-1.01f, 0.5f, 0.5f);
+
+	// Top face (five dots) - arrange in a quincunx pattern
+	glVertex3f(-0.5f, 1.01f, -0.5f);
+	glVertex3f(0.5f, 1.01f, -0.5f);
+	glVertex3f(-0.5f, 1.01f, 0.5f);
+	glVertex3f(0.5f, 1.01f, 0.5f);
+	glVertex3f(0.0f, 1.01f, 0.0f);
+
+	// Bottom face (two dots)
+	glVertex3f(-0.5f, -1.01f, 0.0f);
+	glVertex3f(0.5f, -1.01f, 0.0f);
+	glEnd();
+
+}
+
+void getDiceValues() {
+	if (rolled == true)
+		return;
+	srand(static_cast<unsigned int>(time(nullptr))); // Seed the random number generator
+	dice1 = randomNumber();
+	dice2 = randomNumber();
+	diceToUse.push_back(dice1);
+	diceToUse.push_back(dice2);
+	if (dice1 == dice2) {
+		diceToUse.push_back(dice1);
+		diceToUse.push_back(dice2);
+	}
+	cout << "Dices rolled: " << dice1 << ", " << dice2 << endl;
+}
+
+void rollDice1(int value) {
+
+	// Find the right Target Angle
+	float targetAngle;
+	if (dice1 == 1) targetAngle = 0;
+	else if (dice1 == 2 || dice1 == 4) targetAngle = 240;
+	else if (dice1 == 3 || dice1 == 5) targetAngle = 120;
+	else targetAngle = 180;
+
+	angle1 += 10.f;
+	if (angle1 > targetAngle) {
+		angle1 = targetAngle;
+		rotateFlag1 = GL_FALSE;
+	}
+	glutPostRedisplay();
+	if (rotateFlag1) {
+		glutTimerFunc(25, rollDice1, 0);
+	}
+
+}
+
+void rollDice2(int value) {
+
+	// Find the right Target Angle
+	float targetAngle;
+	if (dice2 == 1) targetAngle = 0;
+	else if (dice2 == 2 || dice2 == 4) targetAngle = 240;
+	else if (dice2 == 3 || dice2 == 5) targetAngle = 120;
+	else targetAngle = 180;
+
+	angle2 += 10.f;
+	if (angle2 > targetAngle) {
+		angle2 = targetAngle;
+		rotateFlag2 = GL_FALSE;
+	}
+	glutPostRedisplay();
+	if (rotateFlag2) {
+		glutTimerFunc(25, rollDice2, 0);
+	}
+}
+
+void rotateBasedOnValue_1() {
+	GLfloat xAxis;
+	GLfloat yAxis;
+	GLfloat zAxis;
+	if (dice1 == 5 || dice1 == 4 || dice1 == 1) {
+		xAxis = 1.0f;
+		yAxis = 1.0f;
+		zAxis = 1.0f;
+	}
+	else if (dice1 == 2 || dice1 == 3) {
+		xAxis = 1.0f;
+		yAxis = 1.0f;
+		zAxis = -1.0f;
+	}
+	else {
+		xAxis = 1.0f;
+		yAxis = 0.0f;
+		zAxis = 0.0f;
+	}
+
+	glRotatef(angle1, xAxis, yAxis, zAxis);
+}
+
+void rotateBasedOnValue_2() {
+	GLfloat xAxis;
+	GLfloat yAxis;
+	GLfloat zAxis;
+	if (dice2 == 5 || dice2 == 4 || dice2 == 1) {
+		xAxis = 1.0f;
+		yAxis = 1.0f;
+		zAxis = 1.0f;
+	}
+	else if (dice2 == 2 || dice2 == 3) {
+		xAxis = 1.0f;
+		yAxis = 1.0f;
+		zAxis = -1.0f;
+	}
+	else {
+		xAxis = 1.0f;
+		yAxis = 0.0f;
+		zAxis = 0.0f;
+	}
+
+	glRotatef(angle2, xAxis, yAxis, zAxis);
+}
+
+void display3D() {
+
+	glutSetWindow(window3D);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+
+	int width = glutGet(GLUT_WINDOW_WIDTH);
+	int height = glutGet(GLUT_WINDOW_HEIGHT);
+
+	if (height == 0) height = 1;
+	glViewport(0, 0, width, height);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f);
+	glMatrixMode(GL_MODELVIEW);
+
+	// Dice 1 (Zar 1)
+	glLoadIdentity();
+	glTranslatef(-2.0f, 0.0f, -10.0f); //Position the First Dice
+	rotateBasedOnValue_1();
+	drawCube();
+
+	// Dice 2 (Zar 2)
+	glLoadIdentity();
+	glTranslatef(2.0f, 0.0f, -10.0f); //Position the Second Dice
+	rotateBasedOnValue_2();
+	drawCube();
+
+	glutSwapBuffers();
+}
+
+void dummyKeyboardFunc(unsigned char key, int x, int y) {}
+
+void keyboard(unsigned char Key, int x, int y) {
+	switch (Key) {
+	case 'r':
+		getDiceValues();
+		rolled = true;
+		rotateFlag1 = GL_TRUE; // Start rotating Dice 1
+		rotateFlag2 = GL_TRUE; // Start rotating Dice 2
+		glutTimerFunc(0, rollDice1, 0);
+		glutTimerFunc(0, rollDice2, 0);
+		glutPostRedisplay(); // Redisplay the scene
+		break;
+	case 'd':
+		glutDestroyWindow(window3D);
+		glutKeyboardFunc(dummyKeyboardFunc);
+		window3D = -1;
+		cout << "(INCASE OF DEADLOCK PRESS THE RED BUTTON ABOVE THE BOARD)" << endl;
+		break;
+	}
+}
 
 //-------------------------------------------------------------------------------------------------------------------------------
 //LEONIT SHABANI - gorev: Oyun Mantigi
@@ -500,6 +769,7 @@ int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
 			if (numberArray[targetSquare] > 1) {
 				return 0;
 			}
+			numberArray[targetSquare]--;
 			colorArray[targetSquare] = 0;
 			numberArray[26]++;
 			blackReadyToCollect = false;
@@ -675,6 +945,11 @@ void mouseClick(int button, int state, int x, int y) {
 		// Print the clicked coordinates
 		cout << "Index: " << getIndex(posX, posY) << endl;
 
+		if (window3D != -1) {
+			cout << "Please destroy the dice window! ( BY PRESSING D )" << endl;
+			return;
+		}
+
 		if (posX >= 100 && posX <= 120 && posY >= 210 && posY <= 220) {
 			firstIndex = -1; // Reset firstIndex
 			checkDeadlock();  // Call the deadlock check function
@@ -706,19 +981,6 @@ void mouseClick(int button, int state, int x, int y) {
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------
-
-void rollDice() {
-	int rolledDicedOne = rand() % 6 + 1;  // Generate random numbers between 1 and 6
-	int rolledDicedTwo = rand() % 6 + 1;
-	diceToUse.push_back(rolledDicedOne);
-	diceToUse.push_back(rolledDicedTwo);
-	if (rolledDicedOne == rolledDicedTwo) {
-		diceToUse.push_back(rolledDicedOne);
-		diceToUse.push_back(rolledDicedTwo);
-	}
-	cout << "Rolled: " << rolledDicedOne << " and " << rolledDicedTwo << endl;
-}
-
 void drawDiceAndTurnIndicator() {
 	// Black frame for die - Positioned outside the board with padding
 	glColor3f(0.0f, 0.0f, 0.0f); // Black frame
@@ -801,9 +1063,14 @@ void handleDiceClick(int button, int state, int x, int y) {
 
 		// Check if click is within EITHER square (die or turn indicator)
 		if (posX >= 210 && posX <= 220 && posY >= 80 && posY <= 90) { // Die square
-			rollDice();  // Generate random numbers
-			rolled = true;
-			glutPostRedisplay(); // Redraw
+			cout << "Please ROLL the dices! ( BY PRESSING R )" << endl;
+			window3D = glutCreateWindow("Zar - 3D");
+			glutDisplayFunc(display3D);
+			glutReshapeWindow(300, 200);
+			glutKeyboardFunc(keyboard);
+
+			//display3D();  // Generate random numbers
+			//glutPostRedisplay(); // Redraw
 		}
 	}
 }
@@ -820,7 +1087,28 @@ void drawDeadlockButton() {
 }
 
 int checkDeadlock() {
-	return 1;
+	switch (toMove) {
+		case 0: return checkDeadLockWhite(); break;
+		case 1: return checkDeadLockBlack(); break;
+	}
+}
+
+int checkSquareAvailability(int targetIndex, int color) {
+	if (targetIndex < 0 && targetIndex > 23)
+		return 0;
+	if (color != 0 && color != 1)
+		return;
+	if (colorArray[targetIndex] == !color && numberArray[targetIndex] > 1) {
+		return;
+	}
+}
+
+int checkDeadLockWhite() {
+	
+}
+
+int checkDeadLockBlack() {
+
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
