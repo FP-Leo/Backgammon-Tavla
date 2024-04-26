@@ -30,5 +30,4 @@ C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1209,24): warning C
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1135,1): warning C4715: 'checkDeadlock': not all control paths return a value
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1173,1): warning C4715: 'checkDeadLockWhite': not all control paths return a value
 C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\Tavla\main.cpp(1200,1): warning C4715: 'checkDeadLockBlack': not all control paths return a value
-  LINK : C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\x64\Debug\Tavla.exe not found or not built by the last incremental link; performing full link
   Tavla.vcxproj -> C:\Users\leoni\Desktop\Tavla-NDAT-Proje\Tavla\x64\Debug\Tavla.exe

@@ -768,7 +768,7 @@ void makeMove(int clickedIndex) {
 }
 
 int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
-	if (targetSquare >= currentIndex)
+	if (targetSquare >= currentIndex && targetSquare != 24)
 		return 0;
 	else if (numberArray[25] > 0) {
 		if (currentIndex != 25)
@@ -810,10 +810,10 @@ int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
 			baseWhite++;
 		if (baseWhite + numberArray[24] == 15)
 			whiteReadyToCollect = true;
-	}else if (targetSquare == 24) {
+	}else if (targetSquare == 24 && currentIndex <= 5) {
 		if (!whiteReadyToCollect)
 			return 0;
-		if (currentIndex - rolledNumber < 0) {
+		if (currentIndex + 1 - rolledNumber <= 0) {
 			numberArray[24]++;
 			baseWhite--;
 		}
@@ -830,7 +830,7 @@ int checkMoveWhite(int currentIndex, int rolledNumber, int targetSquare) {
 }
 
 int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
-	if (targetSquare <= currentIndex)
+	if (targetSquare <= currentIndex && targetSquare != 27)
 		return 0;
 	else if (numberArray[26] > 0) {
 		if (currentIndex != 26)
@@ -872,7 +872,7 @@ int checkMoveBlack(int currentIndex, int rolledNumber, int targetSquare) {
 		if (baseBlack + numberArray[27] == 15)
 			blackReadyToCollect = true;
 	}
-	else if (targetSquare == 27) {
+	else if (targetSquare == 27 && currentIndex >= 18) {
 		if (!blackReadyToCollect)
 			return 0;
 		if (currentIndex + rolledNumber > 23) {
