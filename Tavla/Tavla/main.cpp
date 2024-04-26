@@ -10,7 +10,7 @@ using namespace std;
 
 ////Prototip Alani
 
-//Leo
+//LEONIT SHABANI - 200401110
 void startingPosition();
 void makeMove(int);
 int checkMoveWhite(int, int, int);
@@ -22,7 +22,7 @@ int checkDeadlock();
 int checkDeadLockWhite();
 int checkDeadLockBlack();
 
-//Eren
+//Muhammet Eren NOKTA - 200401012 
 void leftPocket(void);
 void rightPocket(void);
 void drawFrame(void);
@@ -31,7 +31,7 @@ void drawSplitter(float x_center);
 void drawTriangles(float x_center);
 void display(void);
 
-//Baha
+//Baha YOLAL - 200401031
 void drawStones();
 void drawStoneIndex(int);
 void drawCircle(float, float, float);
@@ -40,7 +40,7 @@ void drawDiceAndTurnIndicator();
 void handleDiceClick(int, int, int, int);
 void drawMoveIndicators();
 
-//Erlindi 
+//Erlindi ISAJ - 200401114 
 int randomNumber();
 void drawCube();
 void getDiceValues();
@@ -55,7 +55,7 @@ void keyboard(unsigned char, int, int);
 
 ////Global Degisken Alani
 
-//Leo
+//Leonit SHABANI - 200401110
 // 0 degeri - Beyaz, 1 ise siyah temsil eder. Beyaz tarafi 0dan 5'e kadar olan alanda toplicaktir. Siyah ise 18dan 23'e kadar olan alanda.
 bool started = false;
 int colorArray[28]; // 25 collectWhite, 26 outsideWhite, 27 outsideBlack, 28 collectBlack
@@ -78,7 +78,7 @@ int baseBlack = 0;
 int clicked = 0;
 int firstIndex = -1;
 
-//Baha
+//Baha YOLAL - 200401031
 const int NUM_VERTICES = 360; // Dairenin çözünürlügü
 const float BOARD_WIDTH = 800.0f; // Tahta genişligi
 const float BOARD_HEIGHT = 600.0f; // Tahta yüksekligi
@@ -91,7 +91,7 @@ float outsideX = 25;
 float stonePositionsYOne = 26.5; // Taşların Y konumları alt taraf
 float stonePositionsYTwo = 193.5;// Taşların Y konumları ust taraf
 
-//Erlindi 
+//Erlindi ISAJ - 200401114
 
 int dice1; // Random number for the first Dice
 int dice2; // Random number for the second Dice
@@ -103,7 +103,7 @@ GLboolean rotateFlag1 = GL_FALSE;
 GLboolean rotateFlag2 = GL_FALSE;
 
 //-------------------------------------------------------------------------------------------------------------------------------
-//EREN NOKTA - gover: Tahta Tasarimi
+//Muhammet Eren NOKTA - 200401012, gover: Tahta Tasarimi
 
 void leftPocket(void) {
 	// Sol Cep
@@ -395,7 +395,7 @@ void display(void) {
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
-//BAHA YOLAL - gover: Tas Tasrimi
+//Baha YOLAL - 200401031 - gover: Tas Tasrimi
 
 void drawCircle(float x, float y, float radius) {
 	glBegin(GL_POLYGON);
@@ -458,7 +458,7 @@ void drawStones() {
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
-//ERLINDI ISAJ - gorev: Zar Tasarimi 
+//Erlindi ISAJ - 200401114 - gorev: Zar Tasarimi 
 int randomNumber() {
 	return rand() % 6 + 1;
 }
@@ -709,7 +709,7 @@ void keyboard(unsigned char Key, int x, int y) {
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------
-//LEONIT SHABANI - gorev: Oyun Mantigi
+//Leonit SHABANI - 200401110 - gorev: Oyun Mantigi
 
 //Set up starting position
 void startingPosition() {
@@ -1147,7 +1147,7 @@ int checkSquareAvailability(int targetIndex, int color) {
 
 int checkDeadLockWhite() {
 	int available = 0;
-	if (numberArray[26] > 0) {
+	if (numberArray[25] > 0) {
 		for (int i = 0; i < diceToUse.size(); i++) {
 			available = checkSquareAvailability(24-diceToUse[i], 0);
 		}
@@ -1174,7 +1174,7 @@ int checkDeadLockWhite() {
 
 int checkDeadLockBlack() {
 	int available = 0;
-	if (numberArray[27] > 0) {
+	if (numberArray[26] > 0) {
 		for (int i = 0; i < diceToUse.size(); i++) {
 			available = checkSquareAvailability(diceToUse[i-1], 1);
 		}
